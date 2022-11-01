@@ -1,20 +1,20 @@
 package com.github.themidgart.model;
 
-public class User extends AbstractNamedEntity{
+public class User extends AbstractNamedEntity {
 
     private String email;
 
     private String password;
 
-    private boolean admin;
+    private UserRole role;
 
     public User() {
     }
 
-    public User(String email, String password, boolean admin) {
+    public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
-        this.admin = admin;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -33,11 +33,11 @@ public class User extends AbstractNamedEntity{
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }
