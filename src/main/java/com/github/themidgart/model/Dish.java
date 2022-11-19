@@ -1,23 +1,21 @@
 package com.github.themidgart.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
 import java.math.BigDecimal;
 
-public class Dish extends AbstractNamedEntity{
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Dish extends AbstractNamedEntity {
 
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    public Dish() {
-    }
 
-    public Dish(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
 }

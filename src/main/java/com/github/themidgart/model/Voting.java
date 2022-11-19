@@ -1,33 +1,21 @@
 package com.github.themidgart.model;
 
-public class Voting extends AbstractEntity{
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.ManyToMany;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Voting extends AbstractEntity {
+    @ManyToMany(mappedBy = "user")
     private User user;
 
+    @ManyToMany(mappedBy = "menu")
     private Menu menu;
 
-    public Voting() {
-    }
-
-    public Voting(Integer id, User user, Menu menu) {
-        super(id);
-        this.user = user;
-        this.menu = menu;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
 }

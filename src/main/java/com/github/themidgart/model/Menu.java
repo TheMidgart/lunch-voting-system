@@ -1,46 +1,34 @@
 package com.github.themidgart.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Menu extends AbstractEntity {
 
-    private String restaurantName;
+    @ManyToMany(mappedBy = "restaurant")
+    @NotNull
+    private Restaurant restaurant;
 
+    @Column(name = "date", nullable = false)
     private LocalDate dateMenu;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
+    @OrderBy("name")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;
 
-    public Menu() {
-    }
 
-    public Menu(String restaurantName, LocalDate dateMenu, List<Dish> dishes) {
-        this.restaurantName = restaurantName;
-        this.dateMenu = dateMenu;
-        this.dishes = dishes;
-    }
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public LocalDate getDateMenu() {
-        return dateMenu;
-    }
-
-    public void setDateMenu(LocalDate dateMenu) {
-        this.dateMenu = dateMenu;
-    }
-
-    public List<Dish> getDishes() {
-        return dishes;
-    }
-
-    public void setDishes(List<Dish> dishes) {
-        this.dishes = dishes;
-    }
 }
