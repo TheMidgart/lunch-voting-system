@@ -23,6 +23,8 @@
         <logback.version>1.4.4</logback.version>
         <assertj.version>3.22.0</assertj.version>
         <swagger.version>3.0.0</swagger.version>
+        <hibernate.version>6.1.5.Final</hibernate.version>
+        <hibernate-validator>7.0.5.Final</hibernate-validator>
     </properties>
 
     <parent>
@@ -85,6 +87,10 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring-boot.version}</version></dependency>
 
         <!--validation-->
         <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
@@ -92,6 +98,49 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
+        </dependency>
+
+        <!--hibernate-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!--cache-->
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <scope>runtime</scope>
+            <version>3.10.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.4.0-b180830.0438</version>
         </dependency>
 
 
