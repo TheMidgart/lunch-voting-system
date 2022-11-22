@@ -19,8 +19,6 @@
         <spring-boot.version>2.7.5</spring-boot.version>
         <org.springframework.version>5.3.20</org.springframework.version>
         <org.junit.jupiter.version>5.8.2</org.junit.jupiter.version>
-        <slf4j.version>2.0.3</slf4j.version>
-        <logback.version>1.4.4</logback.version>
         <assertj.version>3.22.0</assertj.version>
         <swagger.version>3.0.0</swagger.version>
         <hibernate.version>6.1.5.Final</hibernate.version>
@@ -56,26 +54,6 @@
 
 
     <dependencies>
-        <!-- Logging with SLF4J & LogBack -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
         <!--spring-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
