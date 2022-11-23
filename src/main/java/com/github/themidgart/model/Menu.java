@@ -16,16 +16,17 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Menu extends AbstractEntity {
 
-    @ManyToMany(mappedBy = "restaurant")
+    @ManyToOne
     @NotNull
     private Restaurant restaurant;
 
     @Column(name = "date", nullable = false)
     private LocalDate dateMenu;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
+    @ManyToMany
     @OrderBy("name")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;

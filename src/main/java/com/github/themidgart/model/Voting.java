@@ -5,17 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Voting extends AbstractEntity {
-    @ManyToMany(mappedBy = "user")
+    @ManyToOne
     private User user;
 
-    @ManyToMany(mappedBy = "menu")
+    @ManyToOne
     private Menu menu;
 
 }

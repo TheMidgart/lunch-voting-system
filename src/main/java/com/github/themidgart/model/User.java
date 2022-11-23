@@ -18,6 +18,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)
