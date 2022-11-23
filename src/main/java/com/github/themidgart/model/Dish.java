@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,13 +15,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price", nullable = false)
+    @Size(min = 0, max = 20000)
     private BigDecimal price;
+
     @ManyToMany
-    private List<Menu> menus;
+    private List<Menu> menuList;
 
 
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Menu extends AbstractEntity {
 
     @ManyToOne
@@ -26,7 +25,7 @@ public class Menu extends AbstractEntity {
     @Column(name = "date", nullable = false)
     private LocalDate dateMenu;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "dish")
     @OrderBy("name")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;
