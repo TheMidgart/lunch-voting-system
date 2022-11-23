@@ -4,7 +4,7 @@ VALUES ('USER', 'user@gmail.com', 'qwerty123'),
        ('ANOTHER_USER', 'anotheruser@ya.ru','somepassword'),
        ('WORKER', 'worker@sw.com', '123');
 
-INSERT INTO user_role (USER_ID, ROLE)
+INSERT INTO user_roles (USER_ID, ROLE)
 VALUES (100000, 'USER'),
        (100001,'USER'),
        (100001,'ADMIN'),
@@ -44,7 +44,7 @@ VALUES (100013,100008),
        (100018,100011),
        (100013,100012);
 
-INSERT INTO voting (USER_ID, MENU_ID)
+INSERT INTO voting_result (USER_ID, MENU_ID)
 VALUES (100000, 100008),
        (100001, 100008),
        (100002, 100008),
