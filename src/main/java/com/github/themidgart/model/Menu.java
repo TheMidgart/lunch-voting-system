@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,18 +14,19 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity (name = "menu")
 public class Menu extends AbstractEntity {
 
-    @ManyToMany(mappedBy = "restaurant")
+    @ManyToOne
     @NotNull
     private Restaurant restaurant;
 
     @Column(name = "date", nullable = false)
+    @NotNull
     private LocalDate dateMenu;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
+    @ManyToMany
     @OrderBy("name")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;
 
 
