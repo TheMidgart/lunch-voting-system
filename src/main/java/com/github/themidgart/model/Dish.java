@@ -27,7 +27,7 @@ public class Dish extends AbstractNamedEntity {
     @Positive
     private BigDecimal price;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "dishes")
     private List<Menu> menuList;
 
 

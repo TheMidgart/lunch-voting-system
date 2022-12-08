@@ -1,7 +1,7 @@
 package com.github.themidgart.service;
 
-import com.github.themidgart.model.User;
-import com.github.themidgart.repository.UserRepository;
+import com.github.themidgart.model.Menu;
+import com.github.themidgart.repository.MenuRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,20 +10,20 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class MenuService {
     @Autowired
-    private UserRepository repository;
+    private MenuRepository repository;
 
-    public List<User> getAll(){
+    public List<Menu> getAll(){
         return repository.findAll();
     }
 
-    public User get(int id){
+    public Menu get(int id){
         return repository.findById(id).orElse(null);
     }
 
-    public User save(User user){
-        return repository.save(user);
+    public Menu save(Menu menu){
+        return repository.save(menu);
     }
 
     public void delete(int id){

@@ -26,6 +26,9 @@ public class Menu extends AbstractEntity {
     private LocalDate dateMenu;
 
     @ManyToMany
+    @JoinTable(name = "dish_menu",
+    joinColumns = @JoinColumn(name = "menu_id"),
+    inverseJoinColumns = @JoinColumn(name = "dish_id"))
     @OrderBy("name")
     private List<Dish> dishes;
 
