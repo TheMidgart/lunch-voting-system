@@ -1,5 +1,6 @@
 package com.github.themidgart.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Menu extends AbstractEntity {
 
     @ManyToOne
+    @JsonManagedReference
     @NotNull
     private Restaurant restaurant;
 
@@ -25,7 +27,8 @@ public class Menu extends AbstractEntity {
     @NotNull
     private LocalDate dateMenu;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinTable(name = "dish_menu",
     joinColumns = @JoinColumn(name = "menu_id"),
     inverseJoinColumns = @JoinColumn(name = "dish_id"))

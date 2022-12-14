@@ -1,5 +1,6 @@
 package com.github.themidgart.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Dish extends AbstractNamedEntity {
     private BigDecimal price;
 
     @ManyToMany(mappedBy = "dishes")
+    @JsonBackReference
     private List<Menu> menuList;
 
 

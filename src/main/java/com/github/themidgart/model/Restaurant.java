@@ -1,5 +1,6 @@
 package com.github.themidgart.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,6 @@ import java.util.List;
 @Entity(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
     @OneToMany
+    @JsonBackReference
     private List <Menu> menuList;
 }
