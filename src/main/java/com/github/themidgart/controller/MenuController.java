@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/rest/admin/menu")
+@RequestMapping("/rest/admin/menus")
 
 public class MenuController {
     @Autowired

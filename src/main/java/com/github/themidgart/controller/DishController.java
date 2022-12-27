@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/rest/admin/dish")
+@RequestMapping("/rest/admin/dishes")
 public class DishController {
     @Autowired
     private DishService service;
