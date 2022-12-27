@@ -8,8 +8,6 @@ import java.time.LocalDate;
 
 @Data
 public class MenuTo {
-    @NotNull
-    private String name;
 
     @NotNull
     @Min(100000)

@@ -1,6 +1,5 @@
 package com.github.themidgart.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +15,8 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Entity(name = "users")
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity (name = "users")
 public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)
@@ -41,4 +39,11 @@ public class User extends AbstractNamedEntity {
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<UserRole> roles;
+
+    public User(Integer id, String name, String email, String password, Set<UserRole> roles) {
+        super(id, name);
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 }
