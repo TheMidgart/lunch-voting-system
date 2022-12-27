@@ -1,6 +1,6 @@
 package com.github.themidgart.controller;
 
-import com.github.themidgart.Util.RestaurantsUtil;
+import com.github.themidgart.util.RestaurantsUtil;
 import com.github.themidgart.model.Restaurant;
 import com.github.themidgart.service.RestaurantService;
 import com.github.themidgart.to.RestaurantTo;
