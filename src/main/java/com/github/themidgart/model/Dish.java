@@ -1,6 +1,6 @@
 package com.github.themidgart.model;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,10 +14,9 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity (name = "dish")
 public class Dish extends AbstractNamedEntity {
 
@@ -27,8 +26,13 @@ public class Dish extends AbstractNamedEntity {
     @Positive
     private BigDecimal price;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "dishes")
+    @JsonBackReference
     private List<Menu> menuList;
 
-
+    public Dish(Integer id, String name, BigDecimal price, List<Menu> menuList) {
+        super(id, name);
+        this.price = price;
+        this.menuList = menuList;
+    }
 }
