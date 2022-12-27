@@ -1,34 +1,43 @@
 package com.github.themidgart.service;
 
+import com.github.themidgart.Util.DishesUtil;
 import com.github.themidgart.model.Dish;
-import com.github.themidgart.model.User;
 import com.github.themidgart.repository.DishRepository;
-import com.github.themidgart.repository.UserRepository;
+import com.github.themidgart.to.DishTo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class DishService {
     @Autowired
     private DishRepository repository;
 
-    public List<Dish> getAll(){
+    public List<Dish> getAll() {
         return repository.findAll();
     }
 
-    public Dish get(int id){
+    public Dish get(int id) {
         return repository.findById(id).orElse(null);
     }
 
-    public Dish save(Dish dish){
+    @Transactional
+    public Dish create(Dish dish) {
         return repository.save(dish);
     }
 
-    public void delete(int id){
+    @Transactional
+    public Dish update(int id, DishTo dishTo) {
+        return repository.save(DishesUtil.updateFromTo(Objects.requireNonNull(repository.findById(id).get()), dishTo));
+    }
+
+    public void delete(int id) {
         repository.deleteById(id);
     }
 }
