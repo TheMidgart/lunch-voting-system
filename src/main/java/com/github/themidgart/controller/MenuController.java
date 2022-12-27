@@ -2,6 +2,8 @@ package com.github.themidgart.controller;
 
 import com.github.themidgart.model.Menu;
 import com.github.themidgart.service.MenuService;
+import com.github.themidgart.to.DishesForMenuTo;
+import com.github.themidgart.to.MenuTo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,30 +21,35 @@ public class MenuController {
     private MenuService service;
 
     @GetMapping
-    public ResponseEntity<List<Menu>> getAll(){
+    public ResponseEntity<List<Menu>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Menu> get(@PathVariable int id){
+    ResponseEntity<Menu> get(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestBody Menu menu){
-        service.save(menu);
+    public void create(@RequestBody MenuTo menuTo) {
+        service.save(menuTo);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @RequestBody Menu menu){
-        service.update(id,menu);
+    public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuTo menuTo) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, menuTo));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable int id) {
         service.delete(id);
     }
+
+    @PutMapping("/add-dishes/{id}")
+    public ResponseEntity<Menu> addDishes(@PathVariable int id, @RequestBody DishesForMenuTo dishesForMenuTo) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.addDishes(id, dishesForMenuTo));
+    }
+
 }
