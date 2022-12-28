@@ -10,4 +10,11 @@ public class RestaurantTo {
     @NotNull
     @Size(min = 2, max =255)
     private String name;
+
+    @Override
+    public String toString() {
+        return "Restaurant {" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

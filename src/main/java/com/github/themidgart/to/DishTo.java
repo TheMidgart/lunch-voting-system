@@ -19,4 +19,11 @@ public class DishTo {
     @Positive
     private BigDecimal price;
 
+    @Override
+    public String toString() {
+        return "Dish {" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
