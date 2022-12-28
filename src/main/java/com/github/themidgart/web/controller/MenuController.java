@@ -1,4 +1,4 @@
-package com.github.themidgart.controller;
+package com.github.themidgart.web.controller;
 
 import com.github.themidgart.model.Menu;
 import com.github.themidgart.service.MenuService;

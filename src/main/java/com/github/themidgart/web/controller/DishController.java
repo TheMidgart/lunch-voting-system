@@ -1,4 +1,4 @@
-package com.github.themidgart.controller;
+package com.github.themidgart.web.controller;
 
 import com.github.themidgart.Util.DishesUtil;
 import com.github.themidgart.model.Dish;

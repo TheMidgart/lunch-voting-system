@@ -3,7 +3,7 @@ package com.github.themidgart.service;
 import com.github.themidgart.exception.NotFoundException;
 import com.github.themidgart.model.User;
 import com.github.themidgart.repository.UserRepository;
-import com.github.themidgart.security.AuthUser;
+import com.github.themidgart.web.security.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
