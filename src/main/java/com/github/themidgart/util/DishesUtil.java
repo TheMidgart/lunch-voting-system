@@ -1,4 +1,4 @@
-package com.github.themidgart.Util;
+package com.github.themidgart.util;
 
 import com.github.themidgart.model.Dish;
 import com.github.themidgart.to.DishTo;

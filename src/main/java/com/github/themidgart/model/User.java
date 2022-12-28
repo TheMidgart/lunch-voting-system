@@ -3,6 +3,7 @@ package com.github.themidgart.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,8 +16,9 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity(name = "users")
+@ToString
 @NoArgsConstructor
+@Entity(name = "users")
 public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)

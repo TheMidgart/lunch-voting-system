@@ -1,6 +1,6 @@
 package com.github.themidgart.service;
 
-import com.github.themidgart.Util.DishesUtil;
+import com.github.themidgart.util.DishesUtil;
 import com.github.themidgart.model.Dish;
 import com.github.themidgart.repository.DishRepository;
 import com.github.themidgart.to.DishTo;
