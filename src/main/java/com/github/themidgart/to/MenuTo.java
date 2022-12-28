@@ -12,7 +12,15 @@ public class MenuTo {
     @NotNull
     @Min(100000)
     private Integer restaurantId;
-
     @NotNull
     private LocalDate dateMenu;
+
+    @Override
+    public String toString() {
+        return "Menu {" +
+                "restaurantId=" + restaurantId +
+                ", dateMenu=" + dateMenu +
+                '}';
+    }
+
 }
