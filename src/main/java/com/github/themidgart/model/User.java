@@ -1,5 +1,7 @@
 package com.github.themidgart.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +43,11 @@ public class User extends AbstractNamedEntity {
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<UserRole> roles;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    @Hidden
+    Set<VotingResult> votingResults;
 
     public User(Integer id, String name, String email, String password, Set<UserRole> roles) {
         super(id, name);
