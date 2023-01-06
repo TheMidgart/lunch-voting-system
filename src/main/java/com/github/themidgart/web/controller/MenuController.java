@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -56,6 +58,13 @@ public class MenuController {
     public ResponseEntity<Menu> addDishes(@PathVariable int id, @RequestBody DishesForMenuTo dishesForMenuTo) {
         log.info("add dishes with id's {} to menu with id {}", dishesForMenuTo, id);
         return ResponseEntity.status(HttpStatus.OK).body(service.addDishes(id, dishesForMenuTo));
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Menu>> getAllByDate(@RequestParam(name = "date", required = true)
+                                                   @NotNull LocalDate date) {
+        log.info("get by date {}", date);
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllByDate(date));
     }
 
 }

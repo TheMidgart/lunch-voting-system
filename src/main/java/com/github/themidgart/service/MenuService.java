@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,5 +82,9 @@ public class MenuService {
         }
         menu.setDishes(dishes);
         return menu;
+    }
+
+    public List<Menu> getAllByDate(LocalDate date) {
+        return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException("Menus not found on date:" + date));
     }
 }
