@@ -2,12 +2,12 @@ package com.github.themidgart.to;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Map;
+
+import static com.github.themidgart.util.VotingResultUtil.ENDING_TIME;
 
 
 public class VotingResultTo {
-    public static final LocalTime ENDING_TIME = LocalTime.of(11,0,0);
     private final LocalDate date;
     private final Map<String, Long> results;
 

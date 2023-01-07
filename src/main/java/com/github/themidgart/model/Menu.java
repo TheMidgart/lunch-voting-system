@@ -17,7 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity(name = "menu")
 public class Menu extends AbstractEntity {
 
@@ -36,11 +35,13 @@ public class Menu extends AbstractEntity {
             joinColumns = @JoinColumn(name = "menu_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id"))
     @OrderBy("name")
+    @ToString.Exclude
     private List<Dish> dishes;
 
     @OneToMany(mappedBy = "menu")
     @JsonBackReference
     @Hidden
+    @ToString.Exclude
     Set<VotingResult> votingResults;
 
     public Menu(Integer id, Restaurant restaurant, LocalDate dateMenu, List<Dish> dishes) {
