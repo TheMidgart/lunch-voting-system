@@ -1,6 +1,7 @@
 package com.github.themidgart.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ public class User extends AbstractNamedEntity {
 
     @OneToMany(mappedBy = "user")
     @JsonBackReference
+    @JsonIgnore
     @Hidden
     Set<VotingResult> votingResults;
 

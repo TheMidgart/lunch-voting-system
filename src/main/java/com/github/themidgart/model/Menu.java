@@ -1,8 +1,9 @@
 package com.github.themidgart.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +41,8 @@ public class Menu extends AbstractEntity {
 
     @OneToMany(mappedBy = "menu")
     @JsonBackReference
-    @Hidden
+    @JsonIgnore
+    @ApiParam(hidden = true)
     @ToString.Exclude
     Set<VotingResult> votingResults;
 

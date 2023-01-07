@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +32,11 @@ public class MenuService {
 
     public List<Menu> getAll() {
         return menuRepository.findAll();
+    }
+
+    @Cacheable("menus")
+    public List<Menu> getAllByDate(LocalDate date) {
+        return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException("Menus not found on date:" + date));
     }
 
     public Menu get(int id) {
@@ -54,6 +58,7 @@ public class MenuService {
             throw new NotFoundException("Menu with id " + id + " not found");
         }
     }
+
     @CacheEvict(value = "menus", allEntries = true)
     public void delete(int id) {
         menuRepository.deleteById(id);
@@ -80,15 +85,8 @@ public class MenuService {
     }
 
     public Menu addDishesFromTo(Menu menu, DishesForMenuTo dishesForMenuTo) {
-        List<Dish> dishes = new ArrayList<>();
-        for (Integer currentDishId : dishesForMenuTo.getDishesIds()) {
-            dishes.add(dishRepository.findById(currentDishId).get());
-        }
+        List<Dish> dishes = dishRepository.findByAnyId(dishesForMenuTo.getDishesIds());
         menu.setDishes(dishes);
         return menu;
-    }
-    @Cacheable("menus")
-    public List<Menu> getAllByDate(LocalDate date) {
-        return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException("Menus not found on date:" + date));
     }
 }
