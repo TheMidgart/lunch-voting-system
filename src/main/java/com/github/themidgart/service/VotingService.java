@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -31,10 +30,6 @@ public class VotingService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Menu> getVotingOptionsForDate(LocalDate date) {
-        return menuRepository.getAllByDate(date)
-                .orElseThrow(() -> new NotFoundException("Not found menus for date : " + date));
-    }
 
     @Transactional
     public void vote(int menuId, int userId) {

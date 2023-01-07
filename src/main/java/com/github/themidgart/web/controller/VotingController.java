@@ -1,6 +1,7 @@
 package com.github.themidgart.web.controller;
 
 import com.github.themidgart.model.Menu;
+import com.github.themidgart.service.MenuService;
 import com.github.themidgart.service.VotingService;
 import com.github.themidgart.to.VotingResultTo;
 import com.github.themidgart.web.security.AuthUser;
@@ -24,11 +25,14 @@ public class VotingController {
     @Autowired
     private VotingService votingService;
 
+    @Autowired
+    private MenuService menuService;
+
     @GetMapping
-    public ResponseEntity<List<Menu>> getAllByDate(@RequestParam(name = "date")
+    public ResponseEntity<List<Menu>> getVotingOptionsByDate(@RequestParam(name = "date")
                                                    @NotNull LocalDate date) {
         log.info("get options to choose on date {}", date);
-        return ResponseEntity.status(HttpStatus.OK).body(votingService.getVotingOptionsForDate(date));
+        return ResponseEntity.status(HttpStatus.OK).body(menuService.getAllByDate(date));
     }
 
 

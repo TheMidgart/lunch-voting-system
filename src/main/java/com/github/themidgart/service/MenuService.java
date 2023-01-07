@@ -10,6 +10,8 @@ import com.github.themidgart.to.DishesForMenuTo;
 import com.github.themidgart.to.MenuTo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,11 +40,13 @@ public class MenuService {
     }
 
     @Transactional
+    @CacheEvict(value = "menus", allEntries = true)
     public void save(MenuTo menuTo) {
         menuRepository.save(createFromTo(menuTo));
     }
 
     @Transactional
+    @CacheEvict(value = "menus", allEntries = true)
     public Menu update(int id, MenuTo menuTo) {
         if (menuRepository.existsById(id)) {
             return menuRepository.save(updateFromTo(menuRepository.findById(id).get(), menuTo));
@@ -50,7 +54,7 @@ public class MenuService {
             throw new NotFoundException("Menu with id " + id + " not found");
         }
     }
-
+    @CacheEvict(value = "menus", allEntries = true)
     public void delete(int id) {
         menuRepository.deleteById(id);
     }
@@ -58,7 +62,7 @@ public class MenuService {
     @Transactional
     public Menu addDishes(int id, DishesForMenuTo dishesForMenuTo) {
         if (menuRepository.existsById(id)) {
-            return menuRepository.save(addDishes(menuRepository.findById(id).get(), dishesForMenuTo));
+            return menuRepository.save(addDishesFromTo(menuRepository.findById(id).get(), dishesForMenuTo));
         } else {
             throw new NotFoundException("Menu with id " + id + " not found");
         }
@@ -75,7 +79,7 @@ public class MenuService {
         return menu;
     }
 
-    public Menu addDishes(Menu menu, DishesForMenuTo dishesForMenuTo) {
+    public Menu addDishesFromTo(Menu menu, DishesForMenuTo dishesForMenuTo) {
         List<Dish> dishes = new ArrayList<>();
         for (Integer currentDishId : dishesForMenuTo.getDishesIds()) {
             dishes.add(dishRepository.findById(currentDishId).get());
@@ -83,7 +87,7 @@ public class MenuService {
         menu.setDishes(dishes);
         return menu;
     }
-
+    @Cacheable("menus")
     public List<Menu> getAllByDate(LocalDate date) {
         return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException("Menus not found on date:" + date));
     }
