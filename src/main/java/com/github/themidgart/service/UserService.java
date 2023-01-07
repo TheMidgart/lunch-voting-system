@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
     public User get(int id){
         return repository.findById(id).orElse(null);
     }
-
+    @Transactional
     public User save(User user){
         return repository.save(user);
     }
