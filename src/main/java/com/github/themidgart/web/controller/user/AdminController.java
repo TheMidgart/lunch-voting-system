@@ -1,7 +1,8 @@
-package com.github.themidgart.web.controller;
+package com.github.themidgart.web.controller.user;
 
 import com.github.themidgart.model.User;
 import com.github.themidgart.service.UserService;
+import com.github.themidgart.to.UserTo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,16 @@ public class AdminController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addUser(@Valid @RequestBody User user) {
-        log.info("create user {}", user);
-        service.save(user);
+    public void addUser(@Valid @RequestBody UserTo userTo) {
+        log.info("create user {}", userTo);
+        service.save(userTo);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable int id, @Valid @RequestBody User user) {
-        log.info("update user with id {} {}", id, user);
-        service.update(id, user);
+    public void updateUser(@PathVariable int id, @Valid @RequestBody UserTo userTo) {
+        log.info("update user with id {} {}", id, userTo);
+        service.update(id, userTo);
     }
 
     @DeleteMapping("/{id}")

@@ -2,6 +2,8 @@ package com.github.themidgart.service;
 
 import com.github.themidgart.model.User;
 import com.github.themidgart.repository.UserRepository;
+import com.github.themidgart.to.UserTo;
+import com.github.themidgart.util.UsersUtil;
 import com.github.themidgart.util.exception.NotFoundException;
 import com.github.themidgart.web.security.AuthUser;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,6 @@ import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FO
 @Service
 @AllArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
@@ -37,17 +38,19 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User save(User user) {
-        return repository.save(user);
+    public User save(UserTo userTo) {
+        User user = UsersUtil.createNewFromTo(userTo);
+        return repository.save(UsersUtil.prepareToSave(user));
     }
 
     @Transactional
-    public User update(int id, User user) {
-        if (repository.existsById(id)) {
+    public User update(int id, UserTo userTo) {
+
+            User user = repository.findById(id).orElseThrow(()->new NotFoundException(USER_NOT_FOUND_WITH_ID+id));
+            UsersUtil.updateFromTo(user,userTo);
+            UsersUtil.prepareToSave(user);
             return repository.save(user);
-        } else {
-            throw new NotFoundException(USER_NOT_FOUND_WITH_ID + id);
-        }
+
     }
 
     public void delete(int id) {
