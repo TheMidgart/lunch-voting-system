@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
+import static com.github.themidgart.util.exception.ExceptionMessages.DISH_NOT_FOUND_WITH_ID;
+
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
@@ -25,7 +27,8 @@ public class DishService {
     }
 
     public Dish get(int id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(DISH_NOT_FOUND_WITH_ID + id));
     }
 
     @Transactional
@@ -36,7 +39,7 @@ public class DishService {
     @Transactional
     public Dish update(int id, DishTo dishTo) {
         return repository.save(DishesUtil.updateFromTo(Objects.requireNonNull(repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found dish with ID" + id))), dishTo));
+                .orElseThrow(() -> new NotFoundException(DISH_NOT_FOUND_WITH_ID + id))), dishTo));
     }
 
     public void delete(int id) {

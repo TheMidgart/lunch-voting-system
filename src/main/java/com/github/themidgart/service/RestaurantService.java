@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
+import static com.github.themidgart.util.exception.ExceptionMessages.RESTAURANT_NOT_FOUND_WITH_ID;
+
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
@@ -25,7 +27,8 @@ public class RestaurantService {
     }
 
     public Restaurant get(int id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + id));
     }
 
     @Transactional
@@ -36,7 +39,7 @@ public class RestaurantService {
     @Transactional
     public Restaurant update(int id, RestaurantTo restaurantTo) {
         return repository.save(RestaurantsUtil.updateFromTo(Objects.requireNonNull(repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found restaurant with ID" + id))), restaurantTo));
+                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + id))), restaurantTo));
     }
 
     public void delete(int id) {

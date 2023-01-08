@@ -18,10 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.github.themidgart.util.exception.ExceptionMessages.*;
+
+
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
 public class MenuService {
+
     @Autowired
     private MenuRepository menuRepository;
     @Autowired
@@ -36,11 +40,11 @@ public class MenuService {
 
     @Cacheable("menus")
     public List<Menu> getAllByDate(LocalDate date) {
-        return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException("Menus not found on date:" + date));
+        return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException(MENUS_NOT_FOUND_ON_DATE + date));
     }
 
     public Menu get(int id) {
-        return menuRepository.findById(id).orElse(null);
+        return menuRepository.findById(id).orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_WITH_ID + id));
     }
 
     @Transactional
@@ -52,12 +56,8 @@ public class MenuService {
     @Transactional
     @CacheEvict(value = "menus", allEntries = true)
     public Menu update(int id, MenuTo menuTo) {
-        if (menuRepository.existsById(id)) {
-            return menuRepository.save(updateFromTo(menuRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Not found menu with ID" + id)), menuTo));
-        } else {
-            throw new NotFoundException("Menu with id " + id + " not found");
-        }
+        return menuRepository.save(updateFromTo(menuRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_WITH_ID + id)), menuTo));
     }
 
     @CacheEvict(value = "menus", allEntries = true)
@@ -67,24 +67,20 @@ public class MenuService {
 
     @Transactional
     public Menu addDishes(int id, DishesForMenuTo dishesForMenuTo) {
-        if (menuRepository.existsById(id)) {
-            return menuRepository.save(addDishesFromTo(menuRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Not found menu with ID" + id)), dishesForMenuTo));
-        } else {
-            throw new NotFoundException("Menu with id " + id + " not found");
-        }
+        return menuRepository.save(addDishesFromTo(menuRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_WITH_ID + id)), dishesForMenuTo));
     }
 
     public Menu createFromTo(MenuTo menuTo) {
         return new Menu(null, restaurantRepository.findById(menuTo.getRestaurantId())
-                .orElseThrow(() -> new NotFoundException("Not found restaurant with ID" + menuTo.getRestaurantId())),
+                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + menuTo.getRestaurantId())),
                 menuTo.getDateMenu(), null);
     }
 
     public Menu updateFromTo(Menu menu, MenuTo menuTo) {
         menu.setDateMenu(menuTo.getDateMenu());
         menu.setRestaurant(restaurantRepository.findById(menuTo.getRestaurantId())
-                .orElseThrow(() -> new NotFoundException("Not found restaurant with ID" + menuTo.getRestaurantId())));
+                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + menuTo.getRestaurantId())));
         return menu;
     }
 

@@ -11,17 +11,20 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.github.themidgart.util.exception.ExceptionMessages.VOTING_FINISHED;
+
 public class VotingResultUtil {
-    public static final LocalTime ENDING_TIME = LocalTime.of(11,0,0);
-    public static VotingResultTo toSummaryResults(List<VotingResult> results){
+    public static final LocalTime ENDING_TIME = LocalTime.of(11, 0, 0);
+
+    public static VotingResultTo toSummaryResults(List<VotingResult> results) {
         return new VotingResultTo(results.get(0).getMenu().getDateMenu(), results.stream()
-                .map(res->res.getMenu().getRestaurant())
-                .collect(Collectors.groupingBy(Restaurant::getName,Collectors.counting())));
+                .map(res -> res.getMenu().getRestaurant())
+                .collect(Collectors.groupingBy(Restaurant::getName, Collectors.counting())));
     }
 
-    public static void checkVotingPossibility(Menu menu){
-        if (LocalDateTime.of(menu.getDateMenu(),ENDING_TIME).getNano()>LocalDateTime.now().getNano()){
-            throw new IllegalVotingException("Voting is finished");
+    public static void checkVotingPossibility(Menu menu) {
+        if (LocalDateTime.of(menu.getDateMenu(), ENDING_TIME).isBefore(LocalDateTime.now())) {
+            throw new IllegalVotingException(VOTING_FINISHED);
         }
     }
 }

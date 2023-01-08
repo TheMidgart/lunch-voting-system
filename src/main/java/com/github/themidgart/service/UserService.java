@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FOUND_WITH_EMAIL;
+import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FOUND_WITH_ID;
+
 @Primary
 @Service
 @AllArgsConstructor
@@ -30,7 +33,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User get(int id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found user with ID" + id));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_WITH_ID + id));
     }
 
     @Transactional
@@ -43,7 +46,7 @@ public class UserService implements UserDetailsService {
         if (repository.existsById(id)) {
             return repository.save(user);
         } else {
-            throw new NotFoundException("User with id " + id + " not found");
+            throw new NotFoundException(USER_NOT_FOUND_WITH_ID + id);
         }
     }
 
@@ -55,7 +58,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("trying authorize with email {}", email);
         User user = repository.findByEmailIgnoreCase(email).orElseThrow(
-                () -> new UsernameNotFoundException(String.format("Email %s not found", email)));
+                () -> new UsernameNotFoundException(USER_NOT_FOUND_WITH_EMAIL + email));
         return new AuthUser(user);
     }
 }
