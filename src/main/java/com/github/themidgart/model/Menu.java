@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,6 +29,7 @@ public class Menu extends AbstractEntity {
 
     @Column(name = "date", nullable = false)
     @NotNull
+    @FutureOrPresent
     private LocalDate dateMenu;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -36,7 +38,6 @@ public class Menu extends AbstractEntity {
             joinColumns = @JoinColumn(name = "menu_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id"))
     @OrderBy("name")
-    @ToString.Exclude
     private List<Dish> dishes;
 
     @OneToMany(mappedBy = "menu")

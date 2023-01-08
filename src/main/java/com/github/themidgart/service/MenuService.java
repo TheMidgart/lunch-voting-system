@@ -1,6 +1,5 @@
 package com.github.themidgart.service;
 
-import com.github.themidgart.exception.NotFoundException;
 import com.github.themidgart.model.Dish;
 import com.github.themidgart.model.Menu;
 import com.github.themidgart.repository.DishRepository;
@@ -8,6 +7,7 @@ import com.github.themidgart.repository.MenuRepository;
 import com.github.themidgart.repository.RestaurantRepository;
 import com.github.themidgart.to.DishesForMenuTo;
 import com.github.themidgart.to.MenuTo;
+import com.github.themidgart.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

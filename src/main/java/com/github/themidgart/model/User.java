@@ -25,7 +25,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-    @Size(max = 128)
+    @Size(min = 5, max = 128)
     private String email;
 
     @Column(name = "password", nullable = false)

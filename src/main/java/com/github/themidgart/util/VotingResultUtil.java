@@ -1,10 +1,10 @@
 package com.github.themidgart.util;
 
-import com.github.themidgart.exception.IllegalVotingException;
 import com.github.themidgart.model.Menu;
 import com.github.themidgart.model.Restaurant;
 import com.github.themidgart.model.VotingResult;
 import com.github.themidgart.to.VotingResultTo;
+import com.github.themidgart.util.exception.IllegalVotingException;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

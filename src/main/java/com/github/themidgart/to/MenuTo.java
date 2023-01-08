@@ -2,6 +2,7 @@ package com.github.themidgart.to;
 
 import lombok.Data;
 
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class MenuTo {
     @Min(100000)
     private Integer restaurantId;
     @NotNull
+    @FutureOrPresent
     private LocalDate dateMenu;
 
     @Override

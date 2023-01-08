@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,14 +34,14 @@ public class AdminController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addUser(@RequestBody User user) {
+    public void addUser(@Valid @RequestBody User user) {
         log.info("create user {}", user);
         service.save(user);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable int id, @RequestBody User user) {
+    public void updateUser(@PathVariable int id, @Valid @RequestBody User user) {
         log.info("update user with id {} {}", id, user);
         service.update(id, user);
     }

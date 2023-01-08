@@ -1,9 +1,9 @@
-package com.github.themidgart.controller;
+package com.github.themidgart.web.controller;
 
-import com.github.themidgart.util.DishesUtil;
 import com.github.themidgart.model.Dish;
 import com.github.themidgart.service.DishService;
 import com.github.themidgart.to.DishTo;
+import com.github.themidgart.util.DishesUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -35,13 +36,13 @@ public class DishController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestBody DishTo dishTo) {
+    public void create(@Valid @RequestBody DishTo dishTo) {
         log.info("create dish {}", dishTo);
         service.create(DishesUtil.createFromTo(dishTo));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Dish> update(@PathVariable int id, @RequestBody DishTo dishTo) {
+    public ResponseEntity<Dish> update(@PathVariable int id, @Valid @RequestBody DishTo dishTo) {
         log.info("update dish with id {} : {}", id, dishTo);
         return ResponseEntity.status(HttpStatus.OK).body(service.update(id, dishTo));
     }

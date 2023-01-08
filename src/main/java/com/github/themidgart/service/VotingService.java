@@ -1,7 +1,5 @@
 package com.github.themidgart.service;
 
-import com.github.themidgart.exception.IllegalVotingException;
-import com.github.themidgart.exception.NotFoundException;
 import com.github.themidgart.model.Menu;
 import com.github.themidgart.model.VotingResult;
 import com.github.themidgart.repository.MenuRepository;
@@ -9,6 +7,8 @@ import com.github.themidgart.repository.UserRepository;
 import com.github.themidgart.repository.VotingResultRepository;
 import com.github.themidgart.to.VotingResultTo;
 import com.github.themidgart.util.VotingResultUtil;
+import com.github.themidgart.util.exception.IllegalVotingException;
+import com.github.themidgart.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
