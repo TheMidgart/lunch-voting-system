@@ -1,21 +1,25 @@
-package com.github.themidgart.web.controller;
+package com.github.themidgart.web.controller.user;
 
 import com.github.themidgart.model.User;
 import com.github.themidgart.service.UserService;
+import com.github.themidgart.to.UserTo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/rest/admin/users")
+@RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class AdminController {
+    public static final String REST_URL = "rest/admin/users";
     @Autowired
     private UserService service;
 
@@ -33,16 +37,16 @@ public class AdminController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addUser(@RequestBody User user) {
-        log.info("create user {}", user);
-        service.save(user);
+    public void addUser(@Valid @RequestBody UserTo userTo) {
+        log.info("create user {}", userTo);
+        service.save(userTo);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable int id, @RequestBody User user) {
-        log.info("update user with id {} {}", id, user);
-        service.update(id, user);
+    public void updateUser(@PathVariable int id, @Valid @RequestBody UserTo userTo) {
+        log.info("update user with id {} {}", id, userTo);
+        service.update(id, userTo);
     }
 
     @DeleteMapping("/{id}")

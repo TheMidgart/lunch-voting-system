@@ -1,20 +1,24 @@
 package com.github.themidgart.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity(name = "menu")
 public class Menu extends AbstractEntity {
 
@@ -25,6 +29,7 @@ public class Menu extends AbstractEntity {
 
     @Column(name = "date", nullable = false)
     @NotNull
+    @FutureOrPresent
     private LocalDate dateMenu;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -34,6 +39,13 @@ public class Menu extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "dish_id"))
     @OrderBy("name")
     private List<Dish> dishes;
+
+    @OneToMany(mappedBy = "menu")
+    @JsonBackReference
+    @JsonIgnore
+    @ApiParam(hidden = true)
+    @ToString.Exclude
+    Set<VotingResult> votingResults;
 
     public Menu(Integer id, Restaurant restaurant, LocalDate dateMenu, List<Dish> dishes) {
         super(id);

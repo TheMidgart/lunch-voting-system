@@ -1,22 +1,27 @@
 package com.github.themidgart.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Entity(name = "users")
 public class User extends AbstractNamedEntity {
@@ -24,7 +29,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-    @Size(max = 128)
+    @Size(min = 5, max = 128)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -42,10 +47,20 @@ public class User extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<UserRole> roles;
 
-    public User(Integer id, String name, String email, String password, Set<UserRole> roles) {
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    @JsonIgnore
+    @Hidden
+    Set<VotingResult> votingResults;
+
+    public User(Integer id, String name, String email, String password, UserRole... roles) {
         super(id, name);
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        setRoles(Arrays.asList(roles));
+    }
+
+    public void setRoles(Collection<UserRole> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(UserRole.class) : EnumSet.copyOf(roles);
     }
 }

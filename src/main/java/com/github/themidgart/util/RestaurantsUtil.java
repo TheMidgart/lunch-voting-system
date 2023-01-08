@@ -2,7 +2,9 @@ package com.github.themidgart.util;
 
 import com.github.themidgart.model.Restaurant;
 import com.github.themidgart.to.RestaurantTo;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class RestaurantsUtil {
     public static Restaurant createFromTo(RestaurantTo restaurantTo) {
         return new Restaurant(null, restaurantTo.getName(), null);

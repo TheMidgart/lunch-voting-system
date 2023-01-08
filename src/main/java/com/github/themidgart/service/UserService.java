@@ -1,8 +1,10 @@
 package com.github.themidgart.service;
 
-import com.github.themidgart.exception.NotFoundException;
 import com.github.themidgart.model.User;
 import com.github.themidgart.repository.UserRepository;
+import com.github.themidgart.to.UserTo;
+import com.github.themidgart.util.UsersUtil;
+import com.github.themidgart.util.exception.NotFoundException;
 import com.github.themidgart.web.security.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,46 +18,50 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FOUND_WITH_EMAIL;
+import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FOUND_WITH_ID;
+
 @Primary
 @Service
 @AllArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return repository.findAll();
     }
 
-    public User get(int id){
-        return repository.findById(id).orElse(null);
-    }
-
-    public User save(User user){
-        return repository.save(user);
+    public User get(int id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_WITH_ID + id));
     }
 
     @Transactional
-    public User update(int id, User user){
-        if (repository.existsById(id)){
-            return repository.save(user);
-        }
-        else {
-            throw new NotFoundException("User with id "+id+ " not found");
-        }
+    public User save(UserTo userTo) {
+        User user = UsersUtil.createNewFromTo(userTo);
+        return repository.save(UsersUtil.prepareToSave(user));
     }
 
-    public void delete(int id){
+    @Transactional
+    public User update(int id, UserTo userTo) {
+
+            User user = repository.findById(id).orElseThrow(()->new NotFoundException(USER_NOT_FOUND_WITH_ID+id));
+            UsersUtil.updateFromTo(user,userTo);
+            UsersUtil.prepareToSave(user);
+            return repository.save(user);
+
+    }
+
+    public void delete(int id) {
         repository.deleteById(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        log.info("trying authorize with email {}",email);
+        log.info("trying authorize with email {}", email);
         User user = repository.findByEmailIgnoreCase(email).orElseThrow(
-                () -> new UsernameNotFoundException(String.format("Email %s not found", email)));
+                () -> new UsernameNotFoundException(USER_NOT_FOUND_WITH_EMAIL + email));
         return new AuthUser(user);
     }
 }

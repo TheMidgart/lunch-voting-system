@@ -18,11 +18,11 @@ VALUES ('Шустрый шмель'),
        ('Розес');
 
 INSERT INTO menu (RESTAURANT_ID, DATE)
-VALUES (100004, '2022-11-22'),
-       (100005, '2022-11-22'),
-       (100006, '2022-11-22'),
-       (100004, '2022-12-22'),
-       (100005, '2022-12-22');
+VALUES (100004, CURRENT_DATE ),
+       (100005, CURRENT_DATE),
+       (100006, CURRENT_DATE),
+       (100004, DATE_ADD(CURDATE(),INTERVAL 1 DAY)),
+       (100005, DATE_ADD(CURDATE(),INTERVAL 1 DAY));
 
 INSERT INTO dish (NAME, PRICE)
 VALUES ('Лагер',250),
@@ -48,8 +48,5 @@ INSERT INTO voting_result (USER_ID, MENU_ID)
 VALUES (100000, 100008),
        (100001, 100008),
        (100002, 100008),
-       (100003, 100008),
-       (100000, 100011),
-       (100001, 100012),
-       (100002, 100012),
-       (100003, 100012);
+       (100003, 100008)
+
