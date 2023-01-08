@@ -23,7 +23,6 @@ import static com.github.themidgart.util.exception.ExceptionMessages.*;
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class MenuService {
 
     @Autowired

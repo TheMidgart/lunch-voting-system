@@ -11,16 +11,16 @@ import javax.validation.constraints.Size;
 public class UserTo {
     Integer id;
     @NotNull
-    @Size(max = 128)
+    @Size(min = 2, max = 64)
     String name;
 
     @Email
     @NotBlank
-    @Size(max = 128)
+    @Size(min = 5, max = 128)
     String email;
 
     @NotBlank
-    @Size(min = 5, max = 32)
+    @Size(min = 5, max = 128)
     String password;
 
 

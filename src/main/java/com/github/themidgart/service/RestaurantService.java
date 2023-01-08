@@ -17,7 +17,6 @@ import static com.github.themidgart.util.exception.ExceptionMessages.RESTAURANT_
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class RestaurantService {
     @Autowired
     private RestaurantRepository repository;

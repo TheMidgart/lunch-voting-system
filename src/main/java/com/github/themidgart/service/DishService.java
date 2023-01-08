@@ -17,7 +17,6 @@ import static com.github.themidgart.util.exception.ExceptionMessages.DISH_NOT_FO
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class DishService {
     @Autowired
     private DishRepository repository;
