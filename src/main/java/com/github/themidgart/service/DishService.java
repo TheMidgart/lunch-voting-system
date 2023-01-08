@@ -1,9 +1,10 @@
 package com.github.themidgart.service;
 
-import com.github.themidgart.util.DishesUtil;
+import com.github.themidgart.exception.NotFoundException;
 import com.github.themidgart.model.Dish;
 import com.github.themidgart.repository.DishRepository;
 import com.github.themidgart.to.DishTo;
+import com.github.themidgart.util.DishesUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,8 @@ public class DishService {
 
     @Transactional
     public Dish update(int id, DishTo dishTo) {
-        return repository.save(DishesUtil.updateFromTo(Objects.requireNonNull(repository.findById(id).get()), dishTo));
+        return repository.save(DishesUtil.updateFromTo(Objects.requireNonNull(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found dish with ID" + id))), dishTo));
     }
 
     public void delete(int id) {

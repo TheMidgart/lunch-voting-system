@@ -25,35 +25,35 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return repository.findAll();
     }
 
-    public User get(int id){
-        return repository.findById(id).orElse(null);
+    public User get(int id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found user with ID" + id));
     }
+
     @Transactional
-    public User save(User user){
+    public User save(User user) {
         return repository.save(user);
     }
 
     @Transactional
-    public User update(int id, User user){
-        if (repository.existsById(id)){
+    public User update(int id, User user) {
+        if (repository.existsById(id)) {
             return repository.save(user);
-        }
-        else {
-            throw new NotFoundException("User with id "+id+ " not found");
+        } else {
+            throw new NotFoundException("User with id " + id + " not found");
         }
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         repository.deleteById(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        log.info("trying authorize with email {}",email);
+        log.info("trying authorize with email {}", email);
         User user = repository.findByEmailIgnoreCase(email).orElseThrow(
                 () -> new UsernameNotFoundException(String.format("Email %s not found", email)));
         return new AuthUser(user);

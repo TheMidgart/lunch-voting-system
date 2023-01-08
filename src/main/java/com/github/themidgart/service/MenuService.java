@@ -53,7 +53,8 @@ public class MenuService {
     @CacheEvict(value = "menus", allEntries = true)
     public Menu update(int id, MenuTo menuTo) {
         if (menuRepository.existsById(id)) {
-            return menuRepository.save(updateFromTo(menuRepository.findById(id).get(), menuTo));
+            return menuRepository.save(updateFromTo(menuRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Not found menu with ID" + id)), menuTo));
         } else {
             throw new NotFoundException("Menu with id " + id + " not found");
         }
@@ -67,20 +68,23 @@ public class MenuService {
     @Transactional
     public Menu addDishes(int id, DishesForMenuTo dishesForMenuTo) {
         if (menuRepository.existsById(id)) {
-            return menuRepository.save(addDishesFromTo(menuRepository.findById(id).get(), dishesForMenuTo));
+            return menuRepository.save(addDishesFromTo(menuRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Not found menu with ID" + id)), dishesForMenuTo));
         } else {
             throw new NotFoundException("Menu with id " + id + " not found");
         }
     }
 
     public Menu createFromTo(MenuTo menuTo) {
-        return new Menu(null, restaurantRepository.findById(menuTo.getRestaurantId()).get(),
+        return new Menu(null, restaurantRepository.findById(menuTo.getRestaurantId())
+                .orElseThrow(() -> new NotFoundException("Not found restaurant with ID" + menuTo.getRestaurantId())),
                 menuTo.getDateMenu(), null);
     }
 
     public Menu updateFromTo(Menu menu, MenuTo menuTo) {
         menu.setDateMenu(menuTo.getDateMenu());
-        menu.setRestaurant(restaurantRepository.findById(menuTo.getRestaurantId()).get());
+        menu.setRestaurant(restaurantRepository.findById(menuTo.getRestaurantId())
+                .orElseThrow(() -> new NotFoundException("Not found restaurant with ID" + menuTo.getRestaurantId())));
         return menu;
     }
 
