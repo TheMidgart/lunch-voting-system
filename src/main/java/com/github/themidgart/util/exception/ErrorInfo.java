@@ -1,12 +1,12 @@
 package com.github.themidgart.util.exception;
 
 public class ErrorInfo {
-    private final String url;
-    private final ErrorType type;
+    private String url;
+    private ErrorType type;
 
-    private final String[] details;
+    private String[] details;
 
-    public ErrorInfo(CharSequence url, ErrorType type, String typeMessage, String... details) {
+    public ErrorInfo(CharSequence url, ErrorType type, String... details) {
         this.url = url.toString();
         this.type = type;
 

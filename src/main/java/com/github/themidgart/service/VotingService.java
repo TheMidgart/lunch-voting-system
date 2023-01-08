@@ -6,7 +6,7 @@ import com.github.themidgart.repository.MenuRepository;
 import com.github.themidgart.repository.UserRepository;
 import com.github.themidgart.repository.VotingResultRepository;
 import com.github.themidgart.to.VotingResultTo;
-import com.github.themidgart.util.VotingResultUtil;
+import com.github.themidgart.util.VotingResultsUtil;
 import com.github.themidgart.util.exception.IllegalVotingException;
 import com.github.themidgart.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
@@ -25,13 +25,10 @@ import static com.github.themidgart.util.exception.ExceptionMessages.*;
 public class VotingService {
     @Autowired
     private VotingResultRepository votingResultRepository;
-
     @Autowired
     private MenuRepository menuRepository;
-
     @Autowired
     private UserRepository userRepository;
-
 
     @Transactional
     public void vote(int menuId, int userId) {
@@ -47,12 +44,12 @@ public class VotingService {
     }
 
     public VotingResultTo getResultsByDate(LocalDate date) {
-        return VotingResultUtil.toSummaryResults(votingResultRepository.getResultsByDate(date)
+        return VotingResultsUtil.toSummaryResults(votingResultRepository.getResultsByDate(date)
                 .orElseThrow(() -> new NotFoundException(VOTING_NOT_FOUND_ON_DATE + date)));
     }
 
     private void save(@Nullable VotingResult result, Menu menu, int userId) {
-        VotingResultUtil.checkVotingPossibility(menu);
+        VotingResultsUtil.checkVotingPossibility(menu);
         if (result == null) {
             votingResultRepository.save(new VotingResult(null, userRepository.findById(userId).
                     orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_WITH_ID + userId)), menu));

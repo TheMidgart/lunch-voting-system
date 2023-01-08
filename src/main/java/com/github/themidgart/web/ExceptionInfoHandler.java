@@ -57,7 +57,6 @@ public class ExceptionInfoHandler {
         Throwable rootCause = ValidationUtil.logAndGetRootCause(log, req, e, logStackTrace, errorType);
         return ResponseEntity.status(errorType.getStatus())
                 .body(new ErrorInfo(req.getRequestURL(), errorType,
-                        errorType.getErrorCode(),
                         details.length != 0 ? details : new String[]{ValidationUtil.getMessage(rootCause)})
                 );
     }

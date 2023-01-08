@@ -5,6 +5,7 @@ import com.github.themidgart.model.Restaurant;
 import com.github.themidgart.model.VotingResult;
 import com.github.themidgart.to.VotingResultTo;
 import com.github.themidgart.util.exception.IllegalVotingException;
+import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,7 +14,8 @@ import java.util.stream.Collectors;
 
 import static com.github.themidgart.util.exception.ExceptionMessages.VOTING_FINISHED;
 
-public class VotingResultUtil {
+@UtilityClass
+public class VotingResultsUtil {
     public static final LocalTime ENDING_TIME = LocalTime.of(11, 0, 0);
 
     public static VotingResultTo toSummaryResults(List<VotingResult> results) {

@@ -1,12 +1,14 @@
 package com.github.themidgart.util;
 
 import com.github.themidgart.util.exception.ErrorType;
+import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
 import javax.servlet.http.HttpServletRequest;
 
+@UtilityClass
 public class ValidationUtil {
     @NonNull
     public static Throwable getRootCause(@NonNull Throwable t) {
