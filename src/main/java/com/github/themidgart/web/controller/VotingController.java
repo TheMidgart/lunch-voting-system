@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("rest/voting")
+@RequestMapping(value = VotingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
 public class VotingController {
+    public static final String REST_URL = "rest/profile/voting";
     @Autowired
     private VotingService votingService;
 
@@ -30,7 +32,7 @@ public class VotingController {
 
     @GetMapping
     public ResponseEntity<List<Menu>> getVotingOptionsByDate(@RequestParam(name = "date")
-                                                   @NotNull LocalDate date) {
+                                                             @NotNull LocalDate date) {
         log.info("get options to choose on date {}", date);
         return ResponseEntity.status(HttpStatus.OK).body(menuService.getAllByDate(date));
     }
@@ -43,7 +45,7 @@ public class VotingController {
         votingService.vote(id, user.id());
     }
 
-    @GetMapping("/vote/results")
+    @GetMapping("/results")
     public ResponseEntity<VotingResultTo> getResultsByDate(@RequestParam(name = "date")
                                                            @NotNull LocalDate date) {
         log.info("get options to choose on date {}", date);

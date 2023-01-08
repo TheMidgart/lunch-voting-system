@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/rest/admin/dishes")
+@RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class DishController {
+    public static final String REST_URL = "rest/admin/dishes";
     @Autowired
     private DishService service;
 
