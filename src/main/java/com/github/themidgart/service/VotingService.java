@@ -35,7 +35,7 @@ public class VotingService {
         Menu menu = menuRepository.findById(menuId)
                 .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_WITH_ID + menuId));
         VotingResult votingResult = votingResultRepository.getByDateAndUserId(menu.getDateMenu(), userId)
-                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_WITH_ID + userId));
+                .orElse(null);
         if ((votingResult == null) || (votingResult.getMenu().getId() != menuId)) {
             save(votingResult, menu, userId);
         } else {
