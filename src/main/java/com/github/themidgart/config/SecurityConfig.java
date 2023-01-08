@@ -15,9 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Slf4j
 public class SecurityConfig {
+    public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return PASSWORD_ENCODER;
     }
 
 

@@ -9,11 +9,15 @@ import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Getter
@@ -49,10 +53,14 @@ public class User extends AbstractNamedEntity {
     @Hidden
     Set<VotingResult> votingResults;
 
-    public User(Integer id, String name, String email, String password, Set<UserRole> roles) {
+    public User(Integer id, String name, String email, String password, UserRole... roles) {
         super(id, name);
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        setRoles(Arrays.asList(roles));
+    }
+
+    public void setRoles(Collection<UserRole> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(UserRole.class) : EnumSet.copyOf(roles);
     }
 }
