@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static com.github.themidgart.util.exception.ExceptionMessages.*;
+import static com.github.themidgart.util.exception.ExceptionMessages.DOUBLE_VOTING_DENIED;
+import static com.github.themidgart.util.exception.ExceptionMessages.VOTING_NOT_FOUND_ON_DATE;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +33,7 @@ public class VotingService {
 
     @Transactional
     public void vote(int menuId, int userId) {
-        Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_WITH_ID + menuId));
+        Menu menu = menuRepository.getReferenceById(menuId);
         VotingResult votingResult = votingResultRepository.getByDateAndUserId(menu.getDateMenu(), userId)
                 .orElse(null);
         if ((votingResult == null) || (votingResult.getMenu().getId() != menuId)) {
@@ -51,8 +51,7 @@ public class VotingService {
     private void save(@Nullable VotingResult result, Menu menu, int userId) {
         VotingResultsUtil.checkVotingPossibility(menu);
         if (result == null) {
-            votingResultRepository.save(new VotingResult(null, userRepository.findById(userId).
-                    orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_WITH_ID + userId)), menu));
+            votingResultRepository.save(new VotingResult(null, userRepository.getReferenceById(userId), menu));
         } else {
             result.setMenu(menu);
             votingResultRepository.save(result);

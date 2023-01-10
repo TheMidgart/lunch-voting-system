@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.github.themidgart.util.exception.ExceptionMessages.*;
+import static com.github.themidgart.util.exception.ExceptionMessages.MENUS_NOT_FOUND_ON_DATE;
+import static com.github.themidgart.util.exception.ExceptionMessages.MENU_NOT_FOUND_WITH_ID;
 
 
 @Service
@@ -71,15 +72,13 @@ public class MenuService {
     }
 
     public Menu createFromTo(MenuTo menuTo) {
-        return new Menu(null, restaurantRepository.findById(menuTo.getRestaurantId())
-                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + menuTo.getRestaurantId())),
+        return new Menu(null, restaurantRepository.getReferenceById(menuTo.getRestaurantId()),
                 menuTo.getDateMenu(), null);
     }
 
     public Menu updateFromTo(Menu menu, MenuTo menuTo) {
         menu.setDateMenu(menuTo.getDateMenu());
-        menu.setRestaurant(restaurantRepository.findById(menuTo.getRestaurantId())
-                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + menuTo.getRestaurantId())));
+        menu.setRestaurant(restaurantRepository.getReferenceById(menuTo.getRestaurantId()));
         return menu;
     }
 
