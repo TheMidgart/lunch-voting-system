@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Slf4j
 public class SecurityConfig {
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PASSWORD_ENCODER;
@@ -27,6 +28,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .antMatchers("/rest/admin/**").hasRole(UserRole.ADMIN.name())
                 .antMatchers("/rest/profile/**").hasRole(UserRole.USER.name())
+                .antMatchers("/rest/voting/**").hasRole(UserRole.USER.name())
+                .antMatchers("/rest/voting").hasRole(UserRole.USER.name())
                 .antMatchers("/").permitAll()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

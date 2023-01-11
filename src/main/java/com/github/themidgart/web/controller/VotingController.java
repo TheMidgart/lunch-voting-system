@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class VotingController {
-    public static final String REST_URL = "rest/profile/voting";
+    public static final String REST_URL = "rest/voting";
     @Autowired
     private VotingService votingService;
 
