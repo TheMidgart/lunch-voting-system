@@ -15,4 +15,7 @@ public class DishesUtil {
         dish.setPrice(dishTo.getPrice());
         return dish;
     }
+    public static DishTo createToFromModel(Dish dish){
+        return new DishTo(dish.getId(), dish.getName(),dish.getPrice());
+    }
 }

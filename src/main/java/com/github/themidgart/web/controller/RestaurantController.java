@@ -25,13 +25,13 @@ public class RestaurantController {
     private RestaurantService service;
 
     @GetMapping
-    public ResponseEntity<List<Restaurant>> getAll() {
+    public ResponseEntity<List<RestaurantTo>> getAll() {
         log.info("get all restaurants");
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Restaurant> get(@PathVariable int id) {
+    ResponseEntity<RestaurantTo> get(@PathVariable int id) {
         log.info("get restaurant  with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
     }

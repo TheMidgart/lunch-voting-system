@@ -21,13 +21,13 @@ public class DishService {
     @Autowired
     private DishRepository repository;
 
-    public List<Dish> getAll() {
-        return repository.findAll();
+    public List<DishTo> getAll() {
+        return repository.findAll().stream().map(DishesUtil::createToFromModel).toList();
     }
 
-    public Dish get(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(DISH_NOT_FOUND_WITH_ID + id));
+    public DishTo get(int id) {
+        return DishesUtil.createToFromModel(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(DISH_NOT_FOUND_WITH_ID + id)));
     }
 
     @Transactional

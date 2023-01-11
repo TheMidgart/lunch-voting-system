@@ -25,13 +25,13 @@ public class DishController {
     private DishService service;
 
     @GetMapping
-    public ResponseEntity<List<Dish>> getAll() {
+    public ResponseEntity<List<DishTo>> getAll() {
         log.info("get all dishes");
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Dish> get(@PathVariable int id) {
+    ResponseEntity<DishTo> get(@PathVariable int id) {
         log.info("get dish with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
     }
