@@ -8,8 +8,16 @@ import java.util.HashMap;
 
 import static com.github.themidgart.MenuTestData.MENU_2;
 import static com.github.themidgart.MenuTestData.MENU_TO_VOTE;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class VotingTestData {
+    public static MatcherFactory.Matcher<VotingResult> VOTING_RESULT_MATCHER =
+            MatcherFactory.usingAssertions(VotingResult.class,
+                    (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields("user.votingResults", "user.roles",
+                            "menu.votingResults", "menu.dishes", "menu.restaurant", "user.password").isEqualTo(e),
+                    (a, e) -> {
+                        throw new UnsupportedOperationException();
+                    });
     public static final LocalDate TODAY = LocalDate.now();
     public static final LocalDate TOMORROW = LocalDate.now().plusDays(1);
     public static final int VOTING_ID = 100024;
