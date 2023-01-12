@@ -54,7 +54,7 @@ public class VotingController {
     }
 
     @GetMapping("/results")
-    @Operation(description = "Show voting results on certain date, without param - today", tags = {"voting"})
+    @Operation(summary = "Show voting results on certain date, without param - today", tags = {"voting"})
     public ResponseEntity<VotingResultTo> getResultsByDate(@RequestParam(name = "date", required = false)
                                                            @Nullable LocalDate date) {
         if (date == null) date = TODAY;

@@ -20,7 +20,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "profile", description = "For managing user self data")
+@Tag(name = "profile", description = "Managing user self data")
 public class ProfileController {
     static final String REST_URL = "/rest/profile";
     @Autowired

@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@Tag(name = "dish", description = "For managing dishes, required role ADMIN")
+@Tag(name = "dish", description = "Managing dishes, required role ADMIN")
 public class DishController {
     public static final String REST_URL = "rest/admin/dishes";
     @Autowired

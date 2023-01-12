@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@Tag(name = "admin", description = "Access for managing users, required role ADMIN")
+@Tag(name = "admin", description = "Managing users, required role ADMIN")
 public class AdminController {
     public static final String REST_URL = "rest/admin/users";
 
@@ -35,7 +35,7 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get user with id", tags = {"admin"})
+    @Operation(summary = "Get user by id", tags = {"admin"})
     public ResponseEntity<User> getUser(@PathVariable int id) {
         log.info("get user with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
@@ -51,7 +51,7 @@ public class AdminController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Update user with id", tags = {"admin"})
+    @Operation(summary = "Update user by id", tags = {"admin"})
     public void updateUser(@PathVariable int id, @Valid @RequestBody UserTo userTo) {
         log.info("update user with id {} {}", id, userTo);
         service.update(id, userTo);
@@ -59,7 +59,7 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete user with id", tags = {"admin"})
+    @Operation(summary = "Delete user by id", tags = {"admin"})
     public void deleteUser(@PathVariable int id) {
         log.info("delete user with id " + id);
         service.delete(id);

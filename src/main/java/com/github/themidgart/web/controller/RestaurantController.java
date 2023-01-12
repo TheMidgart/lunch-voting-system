@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@Tag(name = "restaurant", description = "For managing dishes, required role ADMIN")
+@Tag(name = "restaurant", description = "Managing dishes, required role ADMIN")
 public class RestaurantController {
     public static final String REST_URL = "rest/admin/restaurants";
     @Autowired
@@ -58,7 +58,7 @@ public class RestaurantController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(description = "Delete restaurant by id", tags = {"restaurant"})
+    @Operation(summary = "Delete restaurant by id", tags = {"restaurant"})
     public void delete(@PathVariable int id) {
         log.info("delete restaurant with id {}", id);
         service.delete(id);

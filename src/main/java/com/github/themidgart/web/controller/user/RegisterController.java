@@ -22,7 +22,7 @@ import java.net.URI;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = RegisterController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "register", description = "Registration for unauthorized users")
+@Tag(name = "registration", description = "Registration for unauthorized users")
 public class RegisterController {
     static final String REST_URL = "/rest/register";
 
