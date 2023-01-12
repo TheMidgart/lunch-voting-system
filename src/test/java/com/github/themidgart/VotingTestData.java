@@ -20,13 +20,13 @@ public class VotingTestData {
                     });
     public static final LocalDate TODAY = LocalDate.now();
     public static final LocalDate TOMORROW = LocalDate.now().plusDays(1);
-    public static final int VOTING_ID = 100024;
+    public static final int VOTING_ID = 100022;
     public static final VotingResult VOTING_RESULT = new VotingResult(VOTING_ID, UserTestData.USER, MENU_TO_VOTE);
     public static final VotingResult VOTING_CHANGING_RESULT = new VotingResult(VOTING_ID, UserTestData.USER, MENU_2);
     public static final HashMap<String, Long> map = new HashMap<>();
 
     static {
-        map.put("Шустрый шмель", 4L);
+        map.put("Шустрый шмель", 2L);
     }
 
     public static final VotingResultTo RESULT = new VotingResultTo(TODAY, map);
