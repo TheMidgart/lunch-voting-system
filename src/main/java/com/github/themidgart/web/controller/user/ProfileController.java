@@ -4,6 +4,8 @@ import com.github.themidgart.model.User;
 import com.github.themidgart.service.UserService;
 import com.github.themidgart.to.UserTo;
 import com.github.themidgart.web.security.AuthUser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,14 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "profile", description = "For managing user self data")
 public class ProfileController {
     static final String REST_URL = "/rest/profile";
     @Autowired
     private UserService service;
 
     @GetMapping
+    @Operation(summary = "Get data", tags = {"profile"})
     public User get() {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("get {}", user);
@@ -32,6 +36,7 @@ public class ProfileController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete profile", tags = {"profile"})
     public void delete() {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         service.delete(user.id());
@@ -39,6 +44,7 @@ public class ProfileController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Update data", tags = {"profile"})
     public void update(@RequestBody @Valid UserTo userTo) {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("update {} with id={}", userTo, user.id());
