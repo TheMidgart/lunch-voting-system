@@ -26,7 +26,7 @@ public class VotingTestData {
     public static final HashMap<String, Long> map = new HashMap<>();
 
     static {
-        map.put("Шустрый шмель", 2L);
+        map.put("Shustriy shmel", 2L);
     }
 
     public static final VotingResultTo RESULT = new VotingResultTo(TODAY, map);

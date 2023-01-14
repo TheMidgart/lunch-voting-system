@@ -12,10 +12,10 @@ VALUES (100000, 'USER'),
        (100003, 'USER');
 
 INSERT INTO restaurant (NAME)
-VALUES ('Шустрый шмель'),
-       ('Хмель'),
-       ('Эрик рыжий'),
-       ('Розес');
+VALUES ('Shustriy shmel'),
+       ('Hmel'),
+       ('Eric rishiy'),
+       ('Rozes');
 
 INSERT INTO menu (RESTAURANT_ID, DATE)
 VALUES (100004, CURRENT_DATE),
@@ -25,13 +25,13 @@ VALUES (100004, CURRENT_DATE),
        (100005, DATE_ADD(CURDATE(), INTERVAL 1 DAY));
 
 INSERT INTO dish (NAME, PRICE)
-VALUES ('Лагер', 250),
-       ('Стаут', 300),
+VALUES ('Lager', 250),
+       ('Stout', 300),
        ('IPA', 275),
        ('Wizen', 200),
-       ('Фри', 100),
-       ('Клаб-сендвич', 300),
-       ('Бурито', 200);
+       ('Fri', 100),
+       ('Club-sandwich', 300),
+       ('Burito', 200);
 
 INSERT INTO dish_menu
 VALUES (100013, 100008),

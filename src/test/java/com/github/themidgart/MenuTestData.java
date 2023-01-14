@@ -18,12 +18,12 @@ public class MenuTestData {
     public static final int DISH_2_ID = 100018;
     public static final int DISH_3_ID = 100013;
 
-    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "Шустрый шмель", null);
-    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "Хмель", null);
+    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_1_ID, "Shustriy shmel", null);
+    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_2_ID, "Hmel", null);
 
-    public static final Dish DISH_1 = new Dish(DISH_1_ID, "Бурито", new BigDecimal(200), null);
-    public static final Dish DISH_2 = new Dish(DISH_2_ID, "Клаб-сендвич", new BigDecimal(300), null);
-    public static final Dish DISH_3 = new Dish(DISH_3_ID, "Лагер", new BigDecimal(250), null);
+    public static final Dish DISH_1 = new Dish(DISH_1_ID, "Burito", new BigDecimal(200), null);
+    public static final Dish DISH_2 = new Dish(DISH_2_ID, "Club-sandwich", new BigDecimal(300), null);
+    public static final Dish DISH_3 = new Dish(DISH_3_ID, "Lager", new BigDecimal(250), null);
 
     public static final List<Dish> DISHES_FOR_MENU_1 = List.of(DISH_1, DISH_2);
     public static final List<Dish> DISHES_FOR_MENU_2 = List.of(DISH_3);
