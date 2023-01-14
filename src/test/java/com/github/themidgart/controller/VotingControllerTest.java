@@ -12,6 +12,8 @@ import static com.github.themidgart.MenuTestData.*;
 import static com.github.themidgart.TestUtil.userHttpBasic;
 import static com.github.themidgart.UserTestData.*;
 import static com.github.themidgart.VotingTestData.*;
+import static com.github.themidgart.service.VotingServiceTest.VOTING_CHANGED_RESULT;
+import static com.github.themidgart.service.VotingServiceTest.VOTING_RESULT;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,7 +47,7 @@ public class VotingControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/vote/" + MENU_TO_VOTE_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk());
-        VOTING_RESULT_MATCHER.assertMatch(VOTING_RESULT, votingResultRepository.findById(VOTING_ID).get());
+        VOTING_RESULT_MATCHER.assertMatch(votingResultRepository.findById(VOTING_ID).get(), VOTING_RESULT);
     }
 
     @Test
@@ -72,6 +74,6 @@ public class VotingControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/vote/" + MENU_2_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk());
-        VOTING_RESULT_MATCHER.assertMatch(VOTING_CHANGING_RESULT, votingResultRepository.findById(VOTING_ID).get());
+        VOTING_RESULT_MATCHER.assertMatch(votingResultRepository.findById(VOTING_ID).get(), VOTING_CHANGED_RESULT);
     }
 }

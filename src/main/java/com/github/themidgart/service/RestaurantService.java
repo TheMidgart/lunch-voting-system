@@ -21,13 +21,13 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository repository;
 
-    public List<Restaurant> getAll() {
-        return repository.findAll();
+    public List<RestaurantTo> getAll() {
+        return repository.findAll().stream().map(RestaurantsUtil::createToFromModel).toList();
     }
 
-    public Restaurant get(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + id));
+    public RestaurantTo get(int id) {
+        return RestaurantsUtil.createToFromModel(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + id)));
     }
 
     @Transactional

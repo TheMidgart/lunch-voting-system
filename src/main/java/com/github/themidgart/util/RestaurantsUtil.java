@@ -14,4 +14,8 @@ public class RestaurantsUtil {
         restaurant.setName(restaurantTo.getName());
         return restaurant;
     }
+
+    public static RestaurantTo createToFromModel(Restaurant restaurant){
+        return new RestaurantTo(restaurant.getId(), restaurant.getName());
+    }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant")
     @JsonBackReference
     private List<Menu> menuList;
 
