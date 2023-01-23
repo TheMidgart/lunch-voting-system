@@ -5,6 +5,7 @@ import com.github.themidgart.service.UserService;
 import com.github.themidgart.to.UserTo;
 import com.github.themidgart.web.security.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class ProfileController {
     private UserService service;
 
     @GetMapping
-    @Operation(summary = "Get data", tags = {"profile"})
+    @Operation(summary = "Get data", tags = {"profile"}, security = @SecurityRequirement(name = "basicAuth"))
     public User get() {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("get {}", user);
@@ -36,7 +37,7 @@ public class ProfileController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete profile", tags = {"profile"})
+    @Operation(summary = "Delete profile", tags = {"profile"}, security = @SecurityRequirement(name = "basicAuth"))
     public void delete() {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         service.delete(user.id());
@@ -44,7 +45,7 @@ public class ProfileController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Update data", tags = {"profile"})
+    @Operation(summary = "Update data", tags = {"profile"}, security = @SecurityRequirement(name = "basicAuth"))
     public void update(@RequestBody @Valid UserTo userTo) {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("update {} with id={}", userTo, user.id());

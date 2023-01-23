@@ -5,6 +5,7 @@ import com.github.themidgart.service.DishService;
 import com.github.themidgart.to.DishTo;
 import com.github.themidgart.util.DishesUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +29,14 @@ public class DishController {
     private DishService service;
 
     @GetMapping
-    @Operation(summary = "Get list of all dishes", tags = {"dish"})
+    @Operation(summary = "Get list of all dishes", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<DishTo>> getAll() {
         log.info("get all dishes");
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get dish by id", tags = {"dish"})
+    @Operation(summary = "Get dish by id", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
     ResponseEntity<DishTo> get(@PathVariable int id) {
         log.info("get dish with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
@@ -43,14 +44,14 @@ public class DishController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Create new dish", tags = {"dish"})
+    @Operation(summary = "Create new dish", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
     public void create(@Valid @RequestBody DishTo dishTo) {
         log.info("create dish {}", dishTo);
         service.create(DishesUtil.createFromTo(dishTo));
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update dish by id", tags = {"dish"})
+    @Operation(summary = "Update dish by id", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<Dish> update(@PathVariable int id, @Valid @RequestBody DishTo dishTo) {
         log.info("update dish with id {} : {}", id, dishTo);
         return ResponseEntity.status(HttpStatus.OK).body(service.update(id, dishTo));
@@ -58,7 +59,7 @@ public class DishController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete dish by id", tags = {"dish"})
+    @Operation(summary = "Delete dish by id", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
     public void delete(@PathVariable int id) {
         log.info("delete dish with id {}", id);
         service.delete(id);

@@ -6,6 +6,7 @@ import com.github.themidgart.service.VotingService;
 import com.github.themidgart.to.VotingResultTo;
 import com.github.themidgart.web.security.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,7 +36,8 @@ public class VotingController {
     private MenuService menuService;
 
     @GetMapping
-    @Operation(summary = "Show options to vote on certain date, without param - today", tags = {"voting"})
+    @Operation(summary = "Show options to vote on certain date, without param - today", tags = {"voting"},
+            security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getVotingOptionsByDate(@RequestParam(name = "date", required = false)
                                                              @Nullable LocalDate date) {
         if (date == null) date = TODAY;
@@ -47,14 +48,16 @@ public class VotingController {
 
     @GetMapping("/vote/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Vote for menu with id, authorisation required", tags = {"voting"})
+    @Operation(summary = "Vote for menu with id, authorisation required", tags = {"voting"},
+            security = @SecurityRequirement(name = "basicAuth"))
     public void vote(@PathVariable int id) {
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         votingService.vote(id, user.id());
     }
 
     @GetMapping("/results")
-    @Operation(summary = "Show voting results on certain date, without param - today", tags = {"voting"})
+    @Operation(summary = "Show voting results on certain date, without param - today, required role ADMIN", tags = {"voting"},
+            security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<VotingResultTo> getResultsByDate(@RequestParam(name = "date", required = false)
                                                            @Nullable LocalDate date) {
         if (date == null) date = TODAY;

@@ -4,6 +4,7 @@ import com.github.themidgart.model.User;
 import com.github.themidgart.service.UserService;
 import com.github.themidgart.to.UserTo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +29,14 @@ public class AdminController {
     private UserService service;
 
     @GetMapping
-    @Operation(summary = "Get list of all users", tags = {"admin"})
+    @Operation(summary = "Get list of all users", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<User>> getAll() {
         log.info("get all users");
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get user by id", tags = {"admin"})
+    @Operation(summary = "Get user by id", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<User> getUser(@PathVariable int id) {
         log.info("get user with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
@@ -43,7 +44,7 @@ public class AdminController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Create new user", tags = {"admin"})
+    @Operation(summary = "Create new user", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public void addUser(@Valid @RequestBody UserTo userTo) {
         log.info("create user {}", userTo);
         service.save(userTo);
@@ -51,7 +52,7 @@ public class AdminController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Update user by id", tags = {"admin"})
+    @Operation(summary = "Update user by id", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public void updateUser(@PathVariable int id, @Valid @RequestBody UserTo userTo) {
         log.info("update user with id {} {}", id, userTo);
         service.update(id, userTo);
@@ -59,7 +60,7 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete user by id", tags = {"admin"})
+    @Operation(summary = "Delete user by id", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public void deleteUser(@PathVariable int id) {
         log.info("delete user with id " + id);
         service.delete(id);

@@ -5,6 +5,7 @@ import com.github.themidgart.service.MenuService;
 import com.github.themidgart.to.DishesForMenuTo;
 import com.github.themidgart.to.MenuTo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +31,14 @@ public class MenuController {
     private MenuService service;
 
     @GetMapping
-    @Operation(summary = "Get list of all menus", tags = {"menu"})
+    @Operation(summary = "Get list of all menus", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getAll() {
         log.info("get all menus");
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get menu by id", tags = {"menu"})
+    @Operation(summary = "Get menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     ResponseEntity<Menu> get(@PathVariable int id) {
         log.info("get menu with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
@@ -45,13 +46,13 @@ public class MenuController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Create new menu", tags = {"menu"})
+    @Operation(summary = "Create new menu", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public void create(@Valid @RequestBody MenuTo menuTo) {
         service.save(menuTo);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update menu by id", tags = {"menu"})
+    @Operation(summary = "Update menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<Menu> update(@PathVariable int id, @Valid @RequestBody MenuTo menuTo) {
         log.info("update menu with id {} : {}", id, menuTo);
         return ResponseEntity.status(HttpStatus.OK).body(service.update(id, menuTo));
@@ -59,21 +60,21 @@ public class MenuController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete menu by id", tags = {"menu"})
+    @Operation(summary = "Delete menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public void delete(@PathVariable int id) {
         log.info("delete menu with id {}", id);
         service.delete(id);
     }
 
     @PutMapping("/{id}/add-dishes")
-    @Operation(summary = "Add dishes to menu with id", tags = {"menu"})
+    @Operation(summary = "Add dishes to menu with id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<Menu> addDishes(@PathVariable int id, @Valid @RequestBody DishesForMenuTo dishesForMenuTo) {
         log.info("add dishes with id's {} to menu with id {}", dishesForMenuTo, id);
         return ResponseEntity.status(HttpStatus.OK).body(service.addDishes(id, dishesForMenuTo));
     }
 
     @GetMapping("/filter")
-    @Operation(summary = "Get list of menus for any date", tags = {"menu"})
+    @Operation(summary = "Get list of menus for any date", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getAllByDate(@RequestParam(name = "date")
                                                    @NotNull LocalDate date) {
         log.info("get by date {}", date);
