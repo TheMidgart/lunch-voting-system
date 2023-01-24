@@ -6,9 +6,8 @@ import com.github.themidgart.to.UserTo;
 import com.github.themidgart.util.UsersUtil;
 import com.github.themidgart.util.exception.NotFoundException;
 import com.github.themidgart.web.security.AuthUser;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,16 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.github.themidgart.util.ValidationUtil.checkNotFound;
 import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FOUND_WITH_EMAIL;
 import static com.github.themidgart.util.exception.ExceptionMessages.USER_NOT_FOUND_WITH_ID;
 
 @Primary
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
 
     public List<User> getAll() {
         return repository.findAll();
@@ -54,7 +53,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(int id) {
-        repository.deleteById(id);
+        checkNotFound(repository.deleteById(id));
     }
 
     @Override

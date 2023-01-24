@@ -5,21 +5,19 @@ import com.github.themidgart.repository.DishRepository;
 import com.github.themidgart.to.DishTo;
 import com.github.themidgart.util.DishesUtil;
 import com.github.themidgart.util.exception.NotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
+import static com.github.themidgart.util.ValidationUtil.checkNotFound;
 import static com.github.themidgart.util.exception.ExceptionMessages.DISH_NOT_FOUND_WITH_ID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DishService {
-    @Autowired
-    private DishRepository repository;
+    private final DishRepository repository;
 
     public List<DishTo> getAll() {
         return repository.findAll().stream().map(DishesUtil::createToFromModel).toList();
@@ -36,12 +34,11 @@ public class DishService {
     }
 
     @Transactional
-    public Dish update(int id, DishTo dishTo) {
-        return repository.save(DishesUtil.updateFromTo(Objects.requireNonNull(repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(DISH_NOT_FOUND_WITH_ID + id))), dishTo));
+    public void update(int id, DishTo dishTo) {
+       checkNotFound(repository.updateById(dishTo.getName(),dishTo.getPrice(),id));
     }
 
     public void delete(int id) {
-        repository.deleteById(id);
+        checkNotFound(repository.deleteById(id));
     }
 }

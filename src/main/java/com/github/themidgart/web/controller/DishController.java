@@ -1,6 +1,5 @@
 package com.github.themidgart.web.controller;
 
-import com.github.themidgart.model.Dish;
 import com.github.themidgart.service.DishService;
 import com.github.themidgart.to.DishTo;
 import com.github.themidgart.util.DishesUtil;
@@ -51,10 +50,11 @@ public class DishController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Update dish by id", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
-    public ResponseEntity<Dish> update(@PathVariable int id, @Valid @RequestBody DishTo dishTo) {
+    public void update(@PathVariable int id, @Valid @RequestBody DishTo dishTo) {
         log.info("update dish with id {} : {}", id, dishTo);
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, dishTo));
+        service.update(id, dishTo);
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.github.themidgart.util;
 
 import com.github.themidgart.util.exception.ErrorType;
+import com.github.themidgart.util.exception.NotFoundException;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.springframework.core.NestedExceptionUtils;
@@ -10,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 
 @UtilityClass
 public class ValidationUtil {
+    public static void checkNotFound(int id) {
+        if (id == 0) throw new NotFoundException("Entity not found");
+    }
+
     @NonNull
     public static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);

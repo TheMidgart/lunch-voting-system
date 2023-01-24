@@ -9,8 +9,7 @@ import com.github.themidgart.to.VotingResultTo;
 import com.github.themidgart.util.VotingResultsUtil;
 import com.github.themidgart.util.exception.IllegalVotingException;
 import com.github.themidgart.util.exception.NotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,15 +18,12 @@ import java.time.LocalDate;
 import static com.github.themidgart.util.exception.ExceptionMessages.*;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class VotingService {
-    @Autowired
-    private VotingResultRepository votingResultRepository;
-    @Autowired
-    private MenuRepository menuRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final VotingResultRepository votingResultRepository;
+    private final MenuRepository menuRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void vote(int restaurantId, int userId, LocalDate date) {

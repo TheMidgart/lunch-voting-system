@@ -1,6 +1,5 @@
 package com.github.themidgart.web.controller;
 
-import com.github.themidgart.model.Restaurant;
 import com.github.themidgart.service.RestaurantService;
 import com.github.themidgart.to.RestaurantTo;
 import com.github.themidgart.util.RestaurantsUtil;
@@ -51,10 +50,11 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Update restaurant by id", tags = {"restaurant"}, security = @SecurityRequirement(name = "basicAuth"))
-    public ResponseEntity<Restaurant> update(@PathVariable int id, @Valid @RequestBody RestaurantTo restaurantTo) {
+    public void update(@PathVariable int id, @Valid @RequestBody RestaurantTo restaurantTo) {
         log.info("update restaurant with id {} : {}", id, restaurantTo);
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, restaurantTo));
+        service.update(id, restaurantTo);
     }
 
     @DeleteMapping("/{id}")

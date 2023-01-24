@@ -52,10 +52,11 @@ public class MenuController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Update menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
-    public ResponseEntity<Menu> update(@PathVariable int id, @Valid @RequestBody MenuTo menuTo) {
+    public void update(@PathVariable int id, @Valid @RequestBody MenuTo menuTo) {
         log.info("update menu with id {} : {}", id, menuTo);
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, menuTo));
+        service.update(id, menuTo);
     }
 
     @DeleteMapping("/{id}")
