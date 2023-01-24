@@ -19,13 +19,13 @@ public class VotingResultsUtil {
     public static final LocalTime ENDING_TIME = LocalTime.of(11, 0, 0);
 
     public static VotingResultTo toSummaryResults(List<VotingResult> results) {
-        return new VotingResultTo(results.get(0).getMenu().getDateMenu(), results.stream()
+        return new VotingResultTo(results.get(0).getMenu().getDate(), results.stream()
                 .map(res -> res.getMenu().getRestaurant())
                 .collect(Collectors.groupingBy(Restaurant::getName, Collectors.counting())));
     }
 
     public static void checkVotingPossibility(Menu menu) {
-        if (LocalDateTime.of(menu.getDateMenu(), ENDING_TIME).isBefore(LocalDateTime.now())) {
+        if (LocalDateTime.of(menu.getDate(), ENDING_TIME).isBefore(LocalDateTime.now())) {
             throw new IllegalVotingException(VOTING_FINISHED);
         }
     }

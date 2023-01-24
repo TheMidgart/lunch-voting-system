@@ -17,7 +17,7 @@ VALUES ('Shustriy shmel'),
        ('Eric rishiy'),
        ('Rozes');
 
-INSERT INTO menu (RESTAURANT_ID, DATE)
+INSERT INTO menu (RESTAURANT_ID, MENU_DATE)
 VALUES (100004, CURRENT_DATE),
        (100005, CURRENT_DATE),
        (100006, CURRENT_DATE),

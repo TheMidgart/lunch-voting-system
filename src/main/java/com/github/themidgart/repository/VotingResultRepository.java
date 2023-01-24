@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface VotingResultRepository extends JpaRepository<VotingResult, Integer> {
-    @Query("SELECT v FROM voting_result v  WHERE v.menu.dateMenu=:date AND v.user.id=:userId")
+    @Query("SELECT v FROM voting_result v  WHERE v.menu.date=:date AND v.user.id=:userId")
     Optional<VotingResult> getByDateAndUserId(@Param("date") LocalDate date, @Param("userId") int userId);
 
-    @Query("SELECT v FROM voting_result v WHERE v.menu.dateMenu =:date")
+    @Query("SELECT v FROM voting_result v WHERE v.menu.date =:date")
     Optional<List<VotingResult>> getResultsByDate(@Param("date") LocalDate date);
 }

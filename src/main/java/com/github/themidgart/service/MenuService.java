@@ -7,6 +7,7 @@ import com.github.themidgart.repository.MenuRepository;
 import com.github.themidgart.repository.RestaurantRepository;
 import com.github.themidgart.to.DishesForMenuTo;
 import com.github.themidgart.to.MenuTo;
+import com.github.themidgart.util.DishesUtil;
 import com.github.themidgart.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,14 +78,14 @@ public class MenuService {
     }
 
     public Menu updateFromTo(Menu menu, MenuTo menuTo) {
-        menu.setDateMenu(menuTo.getDateMenu());
+        menu.setDate(menuTo.getDateMenu());
         menu.setRestaurant(restaurantRepository.getReferenceById(menuTo.getRestaurantId()));
         return menu;
     }
 
     public Menu addDishesFromTo(Menu menu, DishesForMenuTo dishesForMenuTo) {
         List<Dish> dishes = dishRepository.findByAnyId(dishesForMenuTo.getDishesIds());
-        menu.setDishes(dishes);
+        menu.setDishes(DishesUtil.checkIncorrectDishesIds(dishes,dishesForMenuTo));
         return menu;
     }
 }

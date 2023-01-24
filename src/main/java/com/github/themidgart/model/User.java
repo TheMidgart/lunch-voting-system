@@ -47,7 +47,7 @@ public class User extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<UserRole> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference
     @JsonIgnore
     @Hidden

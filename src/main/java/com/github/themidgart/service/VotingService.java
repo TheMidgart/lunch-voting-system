@@ -33,7 +33,7 @@ public class VotingService {
     public void vote(int restaurantId, int userId, LocalDate date) {
         Menu menu = menuRepository.getMenuByRestaurantIdAndDate(restaurantId, date)
                 .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_ON_DATE_WITH_RESTAURANT_ID + restaurantId));
-        VotingResult votingResult = votingResultRepository.getByDateAndUserId(menu.getDateMenu(), userId)
+        VotingResult votingResult = votingResultRepository.getByDateAndUserId(menu.getDate(), userId)
                 .orElse(null);
         if (votingResult == null) {
             votingResultRepository.save(new VotingResult(null, userRepository.getReferenceById(userId), menu));
