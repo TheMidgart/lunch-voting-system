@@ -28,7 +28,6 @@ import java.util.List;
 @AllArgsConstructor
 public class VotingController {
     public static final String REST_URL = "rest/voting";
-    public static LocalDate TODAY = LocalDate.now();
     @Autowired
     private VotingService votingService;
 
@@ -40,19 +39,21 @@ public class VotingController {
             security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getVotingOptionsByDate(@RequestParam(name = "date", required = false)
                                                              @Nullable LocalDate date) {
-        if (date == null) date = TODAY;
+        if (date == null) date = LocalDate.now();
         log.info("get options to choose on date {}", date);
         return ResponseEntity.status(HttpStatus.OK).body(menuService.getAllByDate(date));
     }
 
 
-    @GetMapping("/vote/{id}")
+    @PostMapping("/vote/{restaurantId}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Vote for menu with id, authorisation required", tags = {"voting"},
+    @Operation(summary = "Vote for restaurant with id, authorisation required", tags = {"voting"},
             security = @SecurityRequirement(name = "basicAuth"))
-    public void vote(@PathVariable int id) {
+    public void vote(@PathVariable int restaurantId, @RequestParam(name = "date", required = false)
+                                                        @Nullable LocalDate date) {
+        if (date == null) date = LocalDate.now();
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        votingService.vote(id, user.id());
+        votingService.vote(restaurantId, user.id(), date);
     }
 
     @GetMapping("/results")
@@ -60,7 +61,7 @@ public class VotingController {
             security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<VotingResultTo> getResultsByDate(@RequestParam(name = "date", required = false)
                                                            @Nullable LocalDate date) {
-        if (date == null) date = TODAY;
+        if (date == null) date = LocalDate.now();
         log.info("get options to choose on date {}", date);
         return ResponseEntity.status(HttpStatus.OK).body(votingService.getResultsByDate(date));
     }

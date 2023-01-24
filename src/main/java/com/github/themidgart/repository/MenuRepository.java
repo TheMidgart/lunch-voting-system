@@ -19,7 +19,11 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Query("SELECT m FROM menu m WHERE m.dateMenu = :date")
     Optional<List<Menu>> getAllByDate(@Param("date") LocalDate date);
 
+    @Query("SELECT m FROM menu m WHERE m.restaurant.id=:restaurantId AND m.dateMenu=:date")
+    Optional<Menu> getMenuByRestaurantIdAndDate(@Param("restaurantId") int restaurantId, @Param("date") LocalDate date);
+
     @Modifying
     @Query("DELETE FROM menu m WHERE m.id = :id")
+
     void deleteById(@Param("id") int id);
 }

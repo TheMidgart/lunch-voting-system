@@ -11,14 +11,12 @@ import com.github.themidgart.util.exception.IllegalVotingException;
 import com.github.themidgart.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static com.github.themidgart.util.exception.ExceptionMessages.DOUBLE_VOTING_DENIED;
-import static com.github.themidgart.util.exception.ExceptionMessages.VOTING_NOT_FOUND_ON_DATE;
+import static com.github.themidgart.util.exception.ExceptionMessages.*;
 
 @Service
 @AllArgsConstructor
@@ -32,12 +30,17 @@ public class VotingService {
     private UserRepository userRepository;
 
     @Transactional
-    public void vote(int menuId, int userId) {
-        Menu menu = menuRepository.getReferenceById(menuId);
+    public void vote(int restaurantId, int userId, LocalDate date) {
+        Menu menu = menuRepository.getMenuByRestaurantIdAndDate(restaurantId, date)
+                .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_ON_DATE_WITH_RESTAURANT_ID + restaurantId));
         VotingResult votingResult = votingResultRepository.getByDateAndUserId(menu.getDateMenu(), userId)
                 .orElse(null);
-        if ((votingResult == null) || (votingResult.getMenu().getId() != menuId)) {
-            save(votingResult, menu, userId);
+        if (votingResult == null) {
+            votingResultRepository.save(new VotingResult(null, userRepository.getReferenceById(userId), menu));
+        } else if (!votingResult.getMenu().getId().equals(menu.getId())) {
+            VotingResultsUtil.checkVotingPossibility(menu);
+            votingResult.setMenu(menu);
+            votingResultRepository.save(votingResult);
         } else {
             throw new IllegalVotingException(DOUBLE_VOTING_DENIED);
         }
@@ -46,15 +49,5 @@ public class VotingService {
     public VotingResultTo getResultsByDate(LocalDate date) {
         return VotingResultsUtil.toSummaryResults(votingResultRepository.getResultsByDate(date)
                 .orElseThrow(() -> new NotFoundException(VOTING_NOT_FOUND_ON_DATE + date)));
-    }
-
-    private void save(@Nullable VotingResult result, Menu menu, int userId) {
-        VotingResultsUtil.checkVotingPossibility(menu);
-        if (result == null) {
-            votingResultRepository.save(new VotingResult(null, userRepository.getReferenceById(userId), menu));
-        } else {
-            result.setMenu(menu);
-            votingResultRepository.save(result);
-        }
     }
 }
