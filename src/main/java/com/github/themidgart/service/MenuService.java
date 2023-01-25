@@ -46,8 +46,8 @@ public class MenuService {
 
     @Transactional
     @CacheEvict(value = "menus", allEntries = true)
-    public void save(MenuTo menuTo) {
-        menuRepository.save(createFromTo(menuTo));
+    public Menu save(MenuTo menuTo) {
+       return menuRepository.save(createFromTo(menuTo));
     }
 
     @Transactional

@@ -4,6 +4,7 @@ package com.github.themidgart.config;
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
@@ -49,7 +50,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors.basePackage("com.github.themidgart")).build()
                 .apiInfo(apiInfo())
-                .securitySchemes(basicScheme());
+                .securitySchemes(basicScheme())
+                .ignoredParameterTypes(AuthenticationPrincipal.class);
     }
 
 }

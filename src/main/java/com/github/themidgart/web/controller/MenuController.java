@@ -7,48 +7,51 @@ import com.github.themidgart.to.MenuTo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = MenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Tag(name = "menu", description = "Managing menus, required role ADMIN")
 public class MenuController {
     public static final String REST_URL = "rest/admin/menus";
-    @Autowired
-    private MenuService service;
+    private final MenuService service;
 
     @GetMapping
     @Operation(summary = "Get list of all menus", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
-    public ResponseEntity<List<Menu>> getAll() {
+    public List<Menu> getAll() {
         log.info("get all menus");
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
-    ResponseEntity<Menu> get(@PathVariable int id) {
+    public Menu get(@PathVariable int id) {
         log.info("get menu with id {}", id);
-        return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
+        return service.get(id);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Create new menu", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
-    public void create(@Valid @RequestBody MenuTo menuTo) {
-        service.save(menuTo);
+    public ResponseEntity<Menu> create(@Valid @RequestBody MenuTo menuTo) {
+        Menu created = service.save(menuTo);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(null);
     }
 
     @PutMapping("/{id}")
