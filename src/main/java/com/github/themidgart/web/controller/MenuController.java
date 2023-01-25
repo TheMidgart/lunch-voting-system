@@ -67,7 +67,7 @@ public class MenuController {
         service.delete(id);
     }
 
-    @PutMapping("/{id}/add-dishes")
+    @PutMapping("/{id}/menu-items")
     @Operation(summary = "Add dishes to menu with id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<Menu> addDishes(@PathVariable int id, @Valid @RequestBody DishesForMenuTo dishesForMenuTo) {
         log.info("add dishes with id's {} to menu with id {}", dishesForMenuTo, id);

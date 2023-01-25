@@ -7,6 +7,7 @@ public enum ErrorType {
     DATA_NOT_FOUND("DataNotFound", HttpStatus.UNPROCESSABLE_ENTITY),
     DATA_ERROR("DataError", HttpStatus.CONFLICT),
     VALIDATION_ERROR("ValidationError", HttpStatus.UNPROCESSABLE_ENTITY),
+    VOTING_ERROR("VotingError", HttpStatus.UNPROCESSABLE_ENTITY),
     WRONG_REQUEST("WongRequest", HttpStatus.BAD_REQUEST);
 
     private final String errorCode;

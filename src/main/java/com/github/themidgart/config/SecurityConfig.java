@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .antMatchers("/rest/admin/**").hasRole(UserRole.ADMIN.name())
                 .antMatchers("/rest/profile/**").hasRole(UserRole.USER.name())
                 .antMatchers("/rest/voting/vote/**").hasRole(UserRole.USER.name())
-                .antMatchers("/rest/voting/").hasRole(UserRole.USER.name())
+                .antMatchers("/rest/voting").hasRole(UserRole.USER.name())
                 .antMatchers("/rest/voting/results").hasRole(UserRole.ADMIN.name())
                 .antMatchers("/").permitAll()
                 .and().httpBasic()
