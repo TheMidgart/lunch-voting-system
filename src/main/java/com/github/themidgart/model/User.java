@@ -51,7 +51,7 @@ public class User extends AbstractNamedEntity {
     @JsonBackReference
     @JsonIgnore
     @Hidden
-    Set<VotingResult> votingResults;
+    Set<Vote> votes;
 
     public User(Integer id, String name, String email, String password, UserRole... roles) {
         super(id, name);

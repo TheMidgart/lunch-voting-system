@@ -1,7 +1,6 @@
 package com.github.themidgart.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +14,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "voting_result")
-public class VotingResult extends AbstractEntity {
+@Entity(name = "vote")
+public class Vote extends AbstractEntity {
 
     //many-to-many https://www.baeldung.com/jpa-many-to-many
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +30,7 @@ public class VotingResult extends AbstractEntity {
     @NotNull
     private Menu menu;
 
-    public VotingResult(Integer id, User user, Menu menu) {
+    public Vote(Integer id, User user, Menu menu) {
         super(id);
         this.user = user;
         this.menu = menu;

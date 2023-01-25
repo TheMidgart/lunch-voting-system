@@ -2,8 +2,8 @@ package com.github.themidgart.web.controller;
 
 import com.github.themidgart.model.Menu;
 import com.github.themidgart.service.MenuService;
-import com.github.themidgart.service.VotingService;
-import com.github.themidgart.to.VotingResultTo;
+import com.github.themidgart.service.VoteService;
+import com.github.themidgart.to.VoteTo;
 import com.github.themidgart.web.security.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,13 +23,13 @@ import java.util.List;
 
 @Tag(name = "voting", description = "Voting operations")
 @RestController
-@RequestMapping(value = VotingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-public class VotingController {
+public class VoteController {
     public static final String REST_URL = "rest/voting";
     @Autowired
-    private VotingService votingService;
+    private VoteService voteService;
 
     @Autowired
     private MenuService menuService;
@@ -53,16 +53,16 @@ public class VotingController {
                                                         @Nullable LocalDate date) {
         if (date == null) date = LocalDate.now();
         AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        votingService.vote(restaurantId, user.id(), date);
+        voteService.vote(restaurantId, user.id(), date);
     }
 
     @GetMapping("/results")
     @Operation(summary = "Show voting results on certain date, without param - today, required role ADMIN", tags = {"voting"},
             security = @SecurityRequirement(name = "basicAuth"))
-    public ResponseEntity<VotingResultTo> getResultsByDate(@RequestParam(name = "date", required = false)
+    public ResponseEntity<VoteTo> getResultsByDate(@RequestParam(name = "date", required = false)
                                                            @Nullable LocalDate date) {
         if (date == null) date = LocalDate.now();
         log.info("get options to choose on date {}", date);
-        return ResponseEntity.status(HttpStatus.OK).body(votingService.getResultsByDate(date));
+        return ResponseEntity.status(HttpStatus.OK).body(voteService.getResultsByDate(date));
     }
 }

@@ -43,7 +43,7 @@ public class Menu extends AbstractEntity {
     @JsonBackReference
     @JsonIgnore
     @ApiParam(hidden = true)
-    Set<VotingResult> votingResults;
+    Set<Vote> votes;
 
     public Menu(Integer id, Restaurant restaurant, LocalDate date, List<Dish> dishes) {
         super(id);
