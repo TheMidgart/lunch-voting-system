@@ -34,7 +34,7 @@ public class VoteService {
         if (vote == null) {
             voteRepository.save(new Vote(null, userRepository.getReferenceById(userId), menu));
         } else if (!vote.getMenu().getId().equals(menu.getId())) {
-            VoteUtil.checkVotePossibility(menu);
+            VoteUtil.checkVoteChangePossibility(menu);
             vote.setMenu(menu);
             voteRepository.save(vote);
         } else {
@@ -43,7 +43,7 @@ public class VoteService {
     }
 
     public VoteTo getResultsByDate(LocalDate date) {
-        return VoteUtil.toSummaryResults(voteRepository.getResultsByDate(date)
-                .orElseThrow(() -> new NotFoundException(VOTE_NOT_FOUND_ON_DATE + date)));
+        return VoteUtil.toSummaryResultsByDate(voteRepository.getResultsByDate(date)
+                .orElseThrow(() -> new NotFoundException(VOTE_NOT_FOUND_ON_DATE + date)), date);
     }
 }

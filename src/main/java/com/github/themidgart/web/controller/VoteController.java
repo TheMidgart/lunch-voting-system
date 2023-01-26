@@ -37,7 +37,7 @@ public class VoteController {
     @Operation(summary = "Show options to vote on certain date, without param - today", tags = {"vote"},
             security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getVoteOptionsByDate(@RequestParam(name = "date", required = false)
-                                                             @Nullable LocalDate date) {
+                                                           @Nullable LocalDate date) {
         if (date == null) date = LocalDate.now();
         log.info("get options to choose on date {}", date);
         return ResponseEntity.status(HttpStatus.OK).body(menuService.getAllByDate(date));
@@ -49,10 +49,14 @@ public class VoteController {
     @Operation(summary = "Vote for restaurant with id, authorisation required", tags = {"vote"},
             security = @SecurityRequirement(name = "basicAuth"))
     public void vote(@PathVariable int restaurantId, @RequestParam(name = "date", required = false)
-    @Nullable LocalDate date,  @AuthenticationPrincipal AuthUser user) {
+    @Nullable LocalDate date, @AuthenticationPrincipal AuthUser user) {
         if (date == null) date = LocalDate.now();
         voteService.vote(restaurantId, user.id(), date);
     }
+
+    /*Leave this method
+     *Change access only for admin
+     *Change map to List<Object[]> for use it on frontend*/
 
     @GetMapping("/admin/results")
     @Operation(summary = "Show vote results on certain date, without param - today, required role ADMIN", tags = {"vote"},

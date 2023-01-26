@@ -4,20 +4,24 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 
-import static com.github.themidgart.util.VoteUtil.ENDING_TIME;
+import static com.github.themidgart.util.VoteUtil.ENDING_CHANGE_TIME;
 
 @Data
 public class VoteTo {
     private LocalDate menuDate;
-    private Map<String, Long> results;
+    
+    /* 0 index - id
+     * 1 index - name
+     * 2 index - count*/
+    private List<Object[]> results;
 
     private boolean isVoiceChangeEnabled;
 
-    public VoteTo(LocalDate menuDate, Map<String, Long> results) {
+    public VoteTo(LocalDate menuDate, List<Object[]> results) {
         this.menuDate = menuDate;
         this.results = results;
-        this.isVoiceChangeEnabled = LocalDateTime.of(menuDate, ENDING_TIME).isBefore(LocalDateTime.now());
+        this.isVoiceChangeEnabled = LocalDateTime.of(menuDate, ENDING_CHANGE_TIME).isBefore(LocalDateTime.now());
     }
 }
