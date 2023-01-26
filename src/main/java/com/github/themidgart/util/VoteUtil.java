@@ -4,7 +4,7 @@ import com.github.themidgart.model.Menu;
 import com.github.themidgart.model.Restaurant;
 import com.github.themidgart.model.Vote;
 import com.github.themidgart.to.VoteTo;
-import com.github.themidgart.util.exception.IllegalVotingException;
+import com.github.themidgart.util.exception.IllegalVoteException;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.themidgart.util.exception.ExceptionMessages.VOTING_FINISHED;
+import static com.github.themidgart.util.exception.ExceptionMessages.VOTE_FINISHED;
 
 @UtilityClass
 public class VoteUtil {
@@ -24,9 +24,9 @@ public class VoteUtil {
                 .collect(Collectors.groupingBy(Restaurant::getName, Collectors.counting())));
     }
 
-    public static void checkVotingPossibility(Menu menu) {
+    public static void checkVotePossibility(Menu menu) {
         if (LocalDateTime.of(menu.getDate(), ENDING_TIME).isBefore(LocalDateTime.now())) {
-            throw new IllegalVotingException(VOTING_FINISHED);
+            throw new IllegalVoteException(VOTE_FINISHED);
         }
     }
 }

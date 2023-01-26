@@ -7,7 +7,7 @@ import com.github.themidgart.repository.UserRepository;
 import com.github.themidgart.repository.VoteRepository;
 import com.github.themidgart.to.VoteTo;
 import com.github.themidgart.util.VoteUtil;
-import com.github.themidgart.util.exception.IllegalVotingException;
+import com.github.themidgart.util.exception.IllegalVoteException;
 import com.github.themidgart.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,16 +34,16 @@ public class VoteService {
         if (vote == null) {
             voteRepository.save(new Vote(null, userRepository.getReferenceById(userId), menu));
         } else if (!vote.getMenu().getId().equals(menu.getId())) {
-            VoteUtil.checkVotingPossibility(menu);
+            VoteUtil.checkVotePossibility(menu);
             vote.setMenu(menu);
             voteRepository.save(vote);
         } else {
-            throw new IllegalVotingException(DOUBLE_VOTING_DENIED);
+            throw new IllegalVoteException(DOUBLE_VOTE_DENIED);
         }
     }
 
     public VoteTo getResultsByDate(LocalDate date) {
         return VoteUtil.toSummaryResults(voteRepository.getResultsByDate(date)
-                .orElseThrow(() -> new NotFoundException(VOTING_NOT_FOUND_ON_DATE + date)));
+                .orElseThrow(() -> new NotFoundException(VOTE_NOT_FOUND_ON_DATE + date)));
     }
 }

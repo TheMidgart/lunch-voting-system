@@ -10,8 +10,4 @@ public class DishesForMenuTo {
     @NotNull
     private List<Integer> dishesIds;
 
-    @Override
-    public String toString() {
-        return "dishesIds=" + dishesIds;
-    }
 }

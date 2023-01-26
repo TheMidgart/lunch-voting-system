@@ -6,9 +6,9 @@ import com.github.themidgart.model.Restaurant;
 import org.assertj.core.api.Assertions;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
-import static com.github.themidgart.VotingTestData.TOMORROW;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class MenuTestData {
@@ -18,6 +18,8 @@ public class MenuTestData {
                             .ignoringFields("dishes", "restaurant", "votes").isEqualTo(e),
                     (a, e) -> Assertions.assertThat(a).
                             usingRecursiveFieldByFieldElementComparatorIgnoringFields("dishes", "restaurant", "votes").isEqualTo(e));
+    public static final LocalDate TODAY = LocalDate.now();
+    public static final LocalDate TOMORROW = LocalDate.now().plusDays(1);
     public static final int RESTAURANT_1_ID = 100004;
     public static final int RESTAURANT_2_ID = 100005;
     public static final int MENU_TO_VOTE_ID = 100011;

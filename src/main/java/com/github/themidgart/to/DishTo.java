@@ -2,6 +2,7 @@ package com.github.themidgart.to;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@ToString
 public class DishTo extends ToWithId {
     @NotNull
     @Size(min = 2, max = 255)
@@ -26,13 +28,5 @@ public class DishTo extends ToWithId {
         super(id);
         this.name = name;
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Dish {" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                '}';
     }
 }

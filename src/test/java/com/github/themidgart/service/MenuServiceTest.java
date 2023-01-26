@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.github.themidgart.MenuTestData.*;
-import static com.github.themidgart.VotingTestData.TOMORROW;
 
 public class MenuServiceTest extends ContextTestConfiguration {
     @Autowired
     MenuService menuService;
 
     @Test
-    void getVotingOptions() {
+    void getVoteOptions() {
         MENU_MATCHER.assertMatch(menuService.getAllByDate(TOMORROW), MENU_LIST);
     }
 

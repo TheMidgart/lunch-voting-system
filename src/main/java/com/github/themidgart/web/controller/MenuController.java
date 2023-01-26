@@ -77,7 +77,7 @@ public class MenuController {
         return ResponseEntity.status(HttpStatus.OK).body(service.addDishes(id, dishesForMenuTo));
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/by-date")
     @Operation(summary = "Get list of menus for any date", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getAllByDate(@RequestParam(name = "date")
                                                    @NotNull LocalDate date) {
