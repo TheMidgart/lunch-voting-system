@@ -73,7 +73,7 @@ public class MenuService {
     }
 
     public Menu addDishesFromTo(Menu menu, DishesForMenuTo dishesForMenuTo) {
-        List<Dish> dishes = dishRepository.findByAnyId(dishesForMenuTo.getDishesIds());
+        List<Dish> dishes = dishRepository.findByIds(dishesForMenuTo.getDishesIds());
         menu.setDishes(DishesUtil.checkIncorrectDishesIds(dishes,dishesForMenuTo));
         return menu;
     }

@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,19 +52,4 @@ public class DishController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Update dish by id", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
-    public void update(@PathVariable int id, @Valid @RequestBody DishTo dishTo) {
-        log.info("update dish with id {} : {}", id, dishTo);
-        service.update(id, dishTo);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete dish by id", tags = {"dish"}, security = @SecurityRequirement(name = "basicAuth"))
-    public void delete(@PathVariable int id) {
-        log.info("delete dish with id {}", id);
-        service.delete(id);
-    }
 }

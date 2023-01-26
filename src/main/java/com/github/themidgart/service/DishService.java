@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.github.themidgart.util.ValidationUtil.checkNotFound;
 import static com.github.themidgart.util.exception.ExceptionMessages.DISH_NOT_FOUND_WITH_ID;
 
 @Service
@@ -31,14 +30,5 @@ public class DishService {
     @Transactional
     public Dish create(Dish dish) {
         return repository.save(dish);
-    }
-
-    @Transactional
-    public void update(int id, DishTo dishTo) {
-       checkNotFound(repository.updateById(dishTo.getName(),dishTo.getPrice(),id));
-    }
-
-    public void delete(int id) {
-        checkNotFound(repository.deleteById(id));
     }
 }
