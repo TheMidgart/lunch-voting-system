@@ -7,9 +7,9 @@ import com.github.themidgart.repository.MenuRepository;
 import com.github.themidgart.repository.RestaurantRepository;
 import com.github.themidgart.to.DishesForMenuTo;
 import com.github.themidgart.to.MenuTo;
+import com.github.themidgart.util.DishesUtil;
 import com.github.themidgart.util.exception.NotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,21 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.github.themidgart.util.ValidationUtil.checkNotFound;
 import static com.github.themidgart.util.exception.ExceptionMessages.MENUS_NOT_FOUND_ON_DATE;
 import static com.github.themidgart.util.exception.ExceptionMessages.MENU_NOT_FOUND_WITH_ID;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MenuService {
 
-    @Autowired
-    private MenuRepository menuRepository;
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-    @Autowired
-    private DishRepository dishRepository;
-
+    private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final DishRepository dishRepository;
 
     public List<Menu> getAll() {
         return menuRepository.findAll();
@@ -49,20 +46,19 @@ public class MenuService {
 
     @Transactional
     @CacheEvict(value = "menus", allEntries = true)
-    public void save(MenuTo menuTo) {
-        menuRepository.save(createFromTo(menuTo));
+    public Menu save(MenuTo menuTo) {
+       return menuRepository.save(createFromTo(menuTo));
     }
 
     @Transactional
     @CacheEvict(value = "menus", allEntries = true)
-    public Menu update(int id, MenuTo menuTo) {
-        return menuRepository.save(updateFromTo(menuRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MENU_NOT_FOUND_WITH_ID + id)), menuTo));
+    public void update(int id, MenuTo menuTo) {
+        checkNotFound(menuRepository.updateById(menuTo.getDateMenu(),menuTo.getRestaurantId(),id));
     }
 
     @CacheEvict(value = "menus", allEntries = true)
     public void delete(int id) {
-        menuRepository.deleteById(id);
+        checkNotFound(menuRepository.deleteById(id));
     }
 
     @Transactional
@@ -76,15 +72,9 @@ public class MenuService {
                 menuTo.getDateMenu(), null);
     }
 
-    public Menu updateFromTo(Menu menu, MenuTo menuTo) {
-        menu.setDateMenu(menuTo.getDateMenu());
-        menu.setRestaurant(restaurantRepository.getReferenceById(menuTo.getRestaurantId()));
-        return menu;
-    }
-
     public Menu addDishesFromTo(Menu menu, DishesForMenuTo dishesForMenuTo) {
-        List<Dish> dishes = dishRepository.findByAnyId(dishesForMenuTo.getDishesIds());
-        menu.setDishes(dishes);
+        List<Dish> dishes = dishRepository.findByIds(dishesForMenuTo.getDishesIds());
+        menu.setDishes(DishesUtil.checkIncorrectDishesIds(dishes,dishesForMenuTo));
         return menu;
     }
 }

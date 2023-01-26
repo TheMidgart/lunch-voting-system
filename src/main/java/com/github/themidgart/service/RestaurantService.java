@@ -5,21 +5,19 @@ import com.github.themidgart.repository.RestaurantRepository;
 import com.github.themidgart.to.RestaurantTo;
 import com.github.themidgart.util.RestaurantsUtil;
 import com.github.themidgart.util.exception.NotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
+import static com.github.themidgart.util.ValidationUtil.checkNotFound;
 import static com.github.themidgart.util.exception.ExceptionMessages.RESTAURANT_NOT_FOUND_WITH_ID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RestaurantService {
-    @Autowired
-    private RestaurantRepository repository;
+    private final RestaurantRepository repository;
 
     public List<RestaurantTo> getAll() {
         return repository.findAll().stream().map(RestaurantsUtil::createToFromModel).toList();
@@ -36,12 +34,11 @@ public class RestaurantService {
     }
 
     @Transactional
-    public Restaurant update(int id, RestaurantTo restaurantTo) {
-        return repository.save(RestaurantsUtil.updateFromTo(Objects.requireNonNull(repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(RESTAURANT_NOT_FOUND_WITH_ID + id))), restaurantTo));
+    public void update(int id, RestaurantTo restaurantTo) {
+        checkNotFound(repository.updateById(restaurantTo.getName(), id));
     }
 
     public void delete(int id) {
-        repository.deleteById(id);
+        checkNotFound(repository.deleteById(id));
     }
 }

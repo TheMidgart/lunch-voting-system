@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
@@ -27,12 +26,12 @@ public class Menu extends AbstractEntity {
     @NotNull
     private Restaurant restaurant;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "menu_date", nullable = false)
     @NotNull
     @FutureOrPresent
-    private LocalDate dateMenu;
+    private LocalDate date;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     @JoinTable(name = "dish_menu",
             joinColumns = @JoinColumn(name = "menu_id"),
@@ -44,13 +43,12 @@ public class Menu extends AbstractEntity {
     @JsonBackReference
     @JsonIgnore
     @ApiParam(hidden = true)
-    @ToString.Exclude
-    Set<VotingResult> votingResults;
+    Set<Vote> votes;
 
-    public Menu(Integer id, Restaurant restaurant, LocalDate dateMenu, List<Dish> dishes) {
+    public Menu(Integer id, Restaurant restaurant, LocalDate date, List<Dish> dishes) {
         super(id);
         this.restaurant = restaurant;
-        this.dateMenu = dateMenu;
+        this.date = date;
         this.dishes = dishes;
     }
 }

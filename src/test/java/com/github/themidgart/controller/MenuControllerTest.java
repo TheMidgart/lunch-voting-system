@@ -13,11 +13,12 @@ import static com.github.themidgart.UserTestData.USER;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class MenuControllerTest extends AbstractControllerTest{
+public class MenuControllerTest extends AbstractControllerTest {
     private final String REST_URL = "/" + MenuController.REST_URL;
+
     @Test
     void getTest() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL+"/"+MENU_2_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + "/" + MENU_2_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -26,7 +27,7 @@ public class MenuControllerTest extends AbstractControllerTest{
 
     @Test
     void getNoAccess() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL+"/"+MENU_2_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + "/" + MENU_2_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isForbidden());
     }

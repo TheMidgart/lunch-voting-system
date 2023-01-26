@@ -17,7 +17,7 @@ VALUES ('Shustriy shmel'),
        ('Eric rishiy'),
        ('Rozes');
 
-INSERT INTO menu (RESTAURANT_ID, DATE)
+INSERT INTO menu (RESTAURANT_ID, MENU_DATE)
 VALUES (100004, CURRENT_DATE),
        (100005, CURRENT_DATE),
        (100006, CURRENT_DATE),
@@ -44,7 +44,7 @@ VALUES (100013, 100008),
        (100018, 100011),
        (100013, 100012);
 
-INSERT INTO voting_result (USER_ID, MENU_ID)
+INSERT INTO vote (USER_ID, MENU_ID)
 VALUES (100002, 100008),
        (100003, 100008)
 

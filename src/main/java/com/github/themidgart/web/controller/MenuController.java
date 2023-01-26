@@ -5,75 +5,80 @@ import com.github.themidgart.service.MenuService;
 import com.github.themidgart.to.DishesForMenuTo;
 import com.github.themidgart.to.MenuTo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = MenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Tag(name = "menu", description = "Managing menus, required role ADMIN")
 public class MenuController {
     public static final String REST_URL = "rest/admin/menus";
-    @Autowired
-    private MenuService service;
+    private final MenuService service;
 
     @GetMapping
-    @Operation(summary = "Get list of all menus", tags = {"menu"})
-    public ResponseEntity<List<Menu>> getAll() {
+    @Operation(summary = "Get list of all menus", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
+    public List<Menu> getAll() {
         log.info("get all menus");
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get menu by id", tags = {"menu"})
-    ResponseEntity<Menu> get(@PathVariable int id) {
+    @Operation(summary = "Get menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
+    public Menu get(@PathVariable int id) {
         log.info("get menu with id {}", id);
-        return ResponseEntity.status(HttpStatus.OK).body(service.get(id));
+        return service.get(id);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Create new menu", tags = {"menu"})
-    public void create(@Valid @RequestBody MenuTo menuTo) {
-        service.save(menuTo);
+    @Operation(summary = "Create new menu", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
+    public ResponseEntity<Menu> create(@Valid @RequestBody MenuTo menuTo) {
+        Menu created = service.save(menuTo);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(null);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update menu by id", tags = {"menu"})
-    public ResponseEntity<Menu> update(@PathVariable int id, @Valid @RequestBody MenuTo menuTo) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Update menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
+    public void update(@PathVariable int id, @Valid @RequestBody MenuTo menuTo) {
         log.info("update menu with id {} : {}", id, menuTo);
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, menuTo));
+        service.update(id, menuTo);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete menu by id", tags = {"menu"})
+    @Operation(summary = "Delete menu by id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public void delete(@PathVariable int id) {
         log.info("delete menu with id {}", id);
         service.delete(id);
     }
 
-    @PutMapping("/{id}/add-dishes")
-    @Operation(summary = "Add dishes to menu with id", tags = {"menu"})
+    @PutMapping("/{id}/menu-items")
+    @Operation(summary = "Add dishes to menu with id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<Menu> addDishes(@PathVariable int id, @Valid @RequestBody DishesForMenuTo dishesForMenuTo) {
         log.info("add dishes with id's {} to menu with id {}", dishesForMenuTo, id);
         return ResponseEntity.status(HttpStatus.OK).body(service.addDishes(id, dishesForMenuTo));
     }
 
-    @GetMapping("/filter")
-    @Operation(summary = "Get list of menus for any date", tags = {"menu"})
+    @GetMapping("/by-date")
+    @Operation(summary = "Get list of menus for any date", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<List<Menu>> getAllByDate(@RequestParam(name = "date")
                                                    @NotNull LocalDate date) {
         log.info("get by date {}", date);

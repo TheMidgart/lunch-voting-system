@@ -16,13 +16,4 @@ public class MenuTo {
     @NotNull
     @FutureOrPresent
     private LocalDate dateMenu;
-
-    @Override
-    public String toString() {
-        return "Menu {" +
-                "restaurantId=" + restaurantId +
-                ", dateMenu=" + dateMenu +
-                '}';
-    }
-
 }

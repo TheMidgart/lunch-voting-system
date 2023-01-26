@@ -47,11 +47,11 @@ public class User extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<UserRole> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference
     @JsonIgnore
     @Hidden
-    Set<VotingResult> votingResults;
+    Set<Vote> votes;
 
     public User(Integer id, String name, String email, String password, UserRole... roles) {
         super(id, name);

@@ -3,6 +3,7 @@ package com.github.themidgart.web;
 import com.github.themidgart.util.ValidationUtil;
 import com.github.themidgart.util.exception.ErrorInfo;
 import com.github.themidgart.util.exception.ErrorType;
+import com.github.themidgart.util.exception.IllegalVoteException;
 import com.github.themidgart.util.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -43,9 +44,15 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, details);
     }
 
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class,
+            IllegalArgumentException.class})
     public ResponseEntity<ErrorInfo> validationError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
+    }
+
+    @ExceptionHandler({IllegalVoteException.class})
+    public ResponseEntity<ErrorInfo> voteError(HttpServletRequest req, Exception e) {
+        return logAndGetErrorInfo(req, e, false, VOTE_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
