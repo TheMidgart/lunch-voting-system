@@ -31,7 +31,7 @@ public class Menu extends AbstractEntity {
     @FutureOrPresent
     private LocalDate date;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     @JoinTable(name = "dish_menu",
             joinColumns = @JoinColumn(name = "menu_id"),

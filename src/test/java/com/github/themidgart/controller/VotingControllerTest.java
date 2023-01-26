@@ -1,8 +1,9 @@
 package com.github.themidgart.controller;
 
-import com.github.themidgart.repository.VotingResultRepository;
-import com.github.themidgart.service.VotingService;
-import com.github.themidgart.web.controller.VotingController;
+import com.github.themidgart.VotingTestData;
+import com.github.themidgart.repository.VoteRepository;
+import com.github.themidgart.service.VoteService;
+import com.github.themidgart.web.controller.VoteController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,19 +13,17 @@ import static com.github.themidgart.MenuTestData.*;
 import static com.github.themidgart.TestUtil.userHttpBasic;
 import static com.github.themidgart.UserTestData.*;
 import static com.github.themidgart.VotingTestData.*;
-import static com.github.themidgart.service.VotingServiceTest.VOTING_CHANGED_RESULT;
-import static com.github.themidgart.service.VotingServiceTest.VOTING_RESULT;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class VotingControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = "/" + VotingController.REST_URL;
+    private static final String REST_URL = "/" + VoteController.REST_URL;
 
     @Autowired
-    private VotingResultRepository votingResultRepository;
+    private VoteRepository voteRepository;
     @Autowired
-    private VotingService votingService;
+    private VoteService voteService;
 
     @Test
     void getVotingOptionsByDateTest() throws Exception {
@@ -44,24 +43,24 @@ public class VotingControllerTest extends AbstractControllerTest {
 
     @Test
     void voteTest() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/vote/" + MENU_TO_VOTE_ID)
+        perform(MockMvcRequestBuilders.post(REST_URL + "/vote/" + RESTAURANT_1_ID + "?date=" + TOMORROW)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk());
-        VOTING_RESULT_MATCHER.assertMatch(votingResultRepository.findById(VOTING_ID).get(), VOTING_RESULT);
+        VOTE_MATCHER.assertMatch(voteRepository.findById(VOTING_ID).get(), VotingTestData.VOTE);
     }
 
     @Test
     void doubleVotingTest() throws Exception {
-        votingService.vote(MENU_TO_VOTE_ID, USER_ID);
-        perform(MockMvcRequestBuilders.get(REST_URL + "/vote/" + MENU_TO_VOTE_ID)
+        voteService.vote(RESTAURANT_1_ID, USER_ID, TOMORROW);
+        perform(MockMvcRequestBuilders.post(REST_URL + "/vote/" + RESTAURANT_1_ID + "?date=" + TOMORROW)
                 .with(userHttpBasic(USER)))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     void getResultsByDateTest() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/results?date=" + TODAY)
-                .with(userHttpBasic(USER)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -70,10 +69,10 @@ public class VotingControllerTest extends AbstractControllerTest {
 
     @Test
     void changeVoteTest() throws Exception {
-        votingService.vote(MENU_TO_VOTE_ID, USER_ID);
-        perform(MockMvcRequestBuilders.get(REST_URL + "/vote/" + MENU_2_ID)
+        voteService.vote(RESTAURANT_1_ID, USER_ID, TOMORROW);
+        perform(MockMvcRequestBuilders.post(REST_URL + "/vote/" + RESTAURANT_2_ID + "?date=" + TOMORROW)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk());
-        VOTING_RESULT_MATCHER.assertMatch(votingResultRepository.findById(VOTING_ID).get(), VOTING_CHANGED_RESULT);
+        VOTE_MATCHER.assertMatch(voteRepository.findById(VOTING_ID).get(), VotingTestData.VOTE_CHANGE);
     }
 }

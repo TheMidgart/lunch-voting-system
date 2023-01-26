@@ -18,13 +18,13 @@ import javax.validation.constraints.NotNull;
 public class Vote extends AbstractEntity {
 
     //many-to-many https://www.baeldung.com/jpa-many-to-many
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     @NotNull
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id")
     @JsonManagedReference
     @NotNull
