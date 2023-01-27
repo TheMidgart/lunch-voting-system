@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Query("SELECT m FROM menu m WHERE m.date =?1")
-    Optional<List<Menu>> getAllByDate(LocalDate date);
+    List<Menu> getAllByDate(LocalDate date);
 
     @Query("SELECT m FROM menu m WHERE m.restaurant.id=?1 AND m.date=?2")
     Optional<Menu> getMenuByRestaurantIdAndDate(int restaurantId, LocalDate date);
