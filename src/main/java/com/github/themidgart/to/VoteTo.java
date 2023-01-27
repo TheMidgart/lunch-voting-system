@@ -17,11 +17,11 @@ public class VoteTo {
      * 2 index - count*/
     private List<Object[]> results;
 
-    private boolean isVoiceChangeEnabled;
+    private boolean isVoiceChangeDisabled;
 
     public VoteTo(LocalDate menuDate, List<Object[]> results) {
         this.menuDate = menuDate;
         this.results = results;
-        this.isVoiceChangeEnabled = LocalDateTime.of(menuDate, ENDING_CHANGE_TIME).isBefore(LocalDateTime.now());
+        this.isVoiceChangeDisabled = LocalDateTime.of(menuDate, ENDING_CHANGE_TIME).isBefore(LocalDateTime.now());
     }
 }
