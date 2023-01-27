@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.github.themidgart.util.ValidationUtil.checkNotFound;
-import static com.github.themidgart.util.exception.ExceptionMessages.MENUS_NOT_FOUND_ON_DATE;
 import static com.github.themidgart.util.exception.ExceptionMessages.MENU_NOT_FOUND_WITH_ID;
 
 
@@ -37,7 +36,7 @@ public class MenuService {
 
     @Cacheable("menus")
     public List<Menu> getAllByDate(LocalDate date) {
-        return menuRepository.getAllByDate(date).orElseThrow(() -> new NotFoundException(MENUS_NOT_FOUND_ON_DATE + date));
+        return menuRepository.getAllByDate(date);
     }
 
     public Menu get(int id) {

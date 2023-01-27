@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static com.github.themidgart.util.exception.ExceptionMessages.*;
+import static com.github.themidgart.util.exception.ExceptionMessages.DOUBLE_VOTE_DENIED;
+import static com.github.themidgart.util.exception.ExceptionMessages.MENU_NOT_FOUND_ON_DATE_WITH_RESTAURANT_ID;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,6 @@ public class VoteService {
     }
 
     public VoteTo getResultsByDate(LocalDate date) {
-        return VoteUtil.toSummaryResultsByDate(voteRepository.getResultsByDate(date)
-                .orElseThrow(() -> new NotFoundException(VOTE_NOT_FOUND_ON_DATE + date)), date);
+        return VoteUtil.toSummaryResultsByDate(voteRepository.getResultsByDate(date), date);
     }
 }

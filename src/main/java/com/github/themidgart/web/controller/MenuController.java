@@ -71,10 +71,11 @@ public class MenuController {
     }
 
     @PutMapping("/{id}/menu-items")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Add dishes to menu with id", tags = {"menu"}, security = @SecurityRequirement(name = "basicAuth"))
-    public ResponseEntity<Menu> addDishes(@PathVariable int id, @Valid @RequestBody DishesForMenuTo dishesForMenuTo) {
+    public void addDishes(@PathVariable int id, @Valid @RequestBody DishesForMenuTo dishesForMenuTo) {
         log.info("add dishes with id's {} to menu with id {}", dishesForMenuTo, id);
-        return ResponseEntity.status(HttpStatus.OK).body(service.addDishes(id, dishesForMenuTo));
+        service.addDishes(id, dishesForMenuTo);
     }
 
     @GetMapping("/by-date")

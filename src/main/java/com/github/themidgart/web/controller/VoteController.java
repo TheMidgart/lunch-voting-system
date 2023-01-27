@@ -60,7 +60,11 @@ public class VoteController {
 
     @GetMapping("/admin/results")
     @Operation(summary = "Show vote results on certain date, without param - today, required role ADMIN", tags = {"vote"},
-            security = @SecurityRequirement(name = "basicAuth"))
+            security = @SecurityRequirement(name = "basicAuth"),description = """
+            in results[restaurant][index]:
+            [0] index - id
+            [1] index - name
+            [2] index - count""")
     public ResponseEntity<VoteTo> getResultsByDate(@RequestParam(name = "date", required = false)
                                                    @Nullable LocalDate date) {
         if (date == null) date = LocalDate.now();
