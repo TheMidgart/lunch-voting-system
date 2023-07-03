@@ -31,5 +31,14 @@ or use
 ```
 mvn spring-boot:run
 ```
+## Running application via docker
+```
+git clone https://github.com/TheMidgart/lunch-voting-system.git
+cd lunch-voting-system
+docker-compose build
+docker-compose up
+```
+#### Via docker application uses postgres, locally - hsql
+For connection to postgres db use credentials from docker-compose.yaml when docker-compose launched
 
 To test api you can use: http://localhost:8080/swagger-ui/index.html
