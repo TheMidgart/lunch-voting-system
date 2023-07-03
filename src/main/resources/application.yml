@@ -1,0 +1,38 @@
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction:
+          interceptor: TRACE
+          support: DEBUG
+        web: DEBUG
+spring:
+  cache:
+    jcache:
+      config: classpath:cache/ehcache.xml
+  jackson:
+    visibility:
+      field: any
+      getter: none
+      is-getter: none
+      setter: none
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 20
+        format_sql: true
+        jdbc:
+          batch_size: 20
+    show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  sql:
+    init:
+      mode: always
+  profiles:
+    active: hsql
+server:
+  port: 8080

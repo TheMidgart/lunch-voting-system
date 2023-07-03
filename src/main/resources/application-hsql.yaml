@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    password: ''
+    url: jdbc:hsqldb:mem:lunch-voting
+    username: sa
+  sql:
+    init:
+      platform: hsql
