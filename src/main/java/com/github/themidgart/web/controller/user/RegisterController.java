@@ -3,6 +3,7 @@ package com.github.themidgart.web.controller.user;
 import com.github.themidgart.model.User;
 import com.github.themidgart.service.UserService;
 import com.github.themidgart.to.UserTo;
+import com.github.themidgart.util.logger.Loggable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class RegisterController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Registration", tags = {"registration"})
+    @Loggable(loggableFields = {"email","name","id"})
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         User created = service.save(userTo);

@@ -3,6 +3,7 @@ package com.github.themidgart.web.controller.user;
 import com.github.themidgart.model.User;
 import com.github.themidgart.service.UserService;
 import com.github.themidgart.to.UserTo;
+import com.github.themidgart.util.logger.Loggable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,6 +36,7 @@ public class AdminUserController {
     }
 
     @GetMapping("/{id}")
+    @Loggable(loggableFields = {"id"})
     @Operation(summary = "Get user by id", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public User getUser(@PathVariable int id) {
         log.info("get user with id {}", id);
@@ -42,6 +44,7 @@ public class AdminUserController {
     }
 
     @PostMapping
+    @Loggable(loggableFields = {"email","name","id"})
     @Operation(summary = "Create new user", tags = {"admin"}, security = @SecurityRequirement(name = "basicAuth"))
     public ResponseEntity<User> addUser(@Valid @RequestBody UserTo userTo) {
         log.info("create user {}", userTo);
