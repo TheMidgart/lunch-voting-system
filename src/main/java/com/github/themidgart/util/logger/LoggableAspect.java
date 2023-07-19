@@ -5,16 +5,19 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+
 import org.springframework.util.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+
 @Component
 @Aspect
 @Slf4j
 public class LoggableAspect {
+
     private record ParamForLog(String fieldName, String fieldValue, String objectName) {
         @Override
         public String toString() {
@@ -43,6 +46,7 @@ public class LoggableAspect {
                 });
             }
             log.info("Началась обработка метода  {} с полями {}", joinPoint.getSignature(), fieldParams);
+
         } catch (Exception ignored) {
             log.warn("Не удалось логгировать параметры при вызове метода {}", joinPoint.getSignature());
         }
